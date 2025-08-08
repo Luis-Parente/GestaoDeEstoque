@@ -35,7 +35,7 @@ public class Produto {
             throw new IllegalArgumentException("Desconto inválido!");
         }
 
-        this.uuid = uuid != null ? uuid : UUID.randomUUID();
+        this.uuid = uuid;
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;

@@ -29,7 +29,7 @@ public class Usuario {
             throw new IllegalArgumentException("Nivel de acesso deve ser preenchido!");
         }
 
-        this.uuid = uuid != null ? uuid : UUID.randomUUID();
+        this.uuid = uuid;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
