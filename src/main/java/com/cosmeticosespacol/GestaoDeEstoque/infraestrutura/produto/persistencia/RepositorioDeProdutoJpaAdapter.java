@@ -13,12 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RepositorioDeProdutoJpaImpl implements RepositorioDeProduto {
+public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
 
     private final RepositorioDeProdutoJpa repositorio;
 
     @Autowired
-    public RepositorioDeProdutoJpaImpl(RepositorioDeProdutoJpa repositorio) {
+    public RepositorioDeProdutoJpaAdapter(RepositorioDeProdutoJpa repositorio) {
         this.repositorio = repositorio;
     }
 

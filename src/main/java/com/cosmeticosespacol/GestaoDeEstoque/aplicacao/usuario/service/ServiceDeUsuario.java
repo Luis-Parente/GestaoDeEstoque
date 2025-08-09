@@ -3,17 +3,13 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.RepositorioDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
 public class ServiceDeUsuario {
 
     private final RepositorioDeUsuario repositorio;
 
-    @Autowired
     public ServiceDeUsuario(RepositorioDeUsuario repositorioDeUsuario) {
         this.repositorio = repositorioDeUsuario;
     }
