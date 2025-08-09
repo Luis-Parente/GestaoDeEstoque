@@ -58,16 +58,19 @@ public class ServiceDeProduto {
         return repositorio.atualizarProduto(uuid, produtoAtualizado);
     }
 
-    public void adicionarDescontoPorUuid(UUID uuid) {
-        repositorio.adicionarDescontoPorUuid(uuid);
+    public void adicionarDescontoPorUuid(UUID uuid, Double desconto) {
+        filtrarPorUuid(uuid);
+        repositorio.adicionarDescontoPorUuid(uuid, desconto);
     }
 
-    public void adicionarDescontoPorCategoria(Categoria categoria) {
-        repositorio.adicionarDescontoPorCategoria(categoria);
+    public void adicionarDescontoPorCategoria(Categoria categoria, Double desconto) {
+        filtrarPorCategoria(categoria);
+        repositorio.adicionarDescontoPorCategoria(categoria, desconto);
     }
 
-    public void adicionarDescontroEmTodosProdutos() {
-        repositorio.adicionarDescontroEmTodosProdutos();
+    public void adicionarDescontroEmTodosProdutos(Double desconto) {
+        retornarTodosProdutos();
+        repositorio.adicionarDescontroEmTodosProdutos(desconto);
     }
 
     public void deletarProdutoPorUuid(UUID uuid) {

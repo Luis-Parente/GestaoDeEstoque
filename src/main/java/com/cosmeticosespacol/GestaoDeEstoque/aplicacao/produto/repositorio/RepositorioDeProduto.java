@@ -21,11 +21,11 @@ public interface RepositorioDeProduto {
 
     Produto atualizarProduto(UUID uuid, Produto produtoAtualizado);
 
-    void adicionarDescontoPorUuid(UUID uuid);
+    void adicionarDescontoPorUuid(UUID uuid, Double desconto);
 
-    void adicionarDescontoPorCategoria(Categoria categoria);
+    void adicionarDescontoPorCategoria(Categoria categoria, Double desconto);
 
-    void adicionarDescontroEmTodosProdutos();
+    void adicionarDescontroEmTodosProdutos(Double desconto);
 
     void deletarProdutoPorUuid(UUID uuid);
 }
