@@ -1,6 +1,7 @@
 package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.controller;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.service.ServiceDeProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,7 +47,7 @@ public class ControllerDeProduto {
         return ResponseEntity.created(uri).body(ProdutoMapper.paraDto(dominio));
     }
 
-    @Operation(description = "Retorna produto filtrado por uuid", summary = "FIltrar por uuid")
+    @Operation(description = "Retorna produto filtrado por uuid", summary = "Filtrar por uuid")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Produto retornado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
@@ -54,6 +56,39 @@ public class ControllerDeProduto {
     public ResponseEntity<DadosRetornoProduto> filtrarProdutoPorUuid(@PathVariable UUID uuid) {
         Produto dominio = service.filtrarPorUuid(uuid);
         return ResponseEntity.ok().body(ProdutoMapper.paraDto(dominio));
+    }
+
+    @Operation(description = "Retorna lista de produtos filtrados por nome", summary = "Filtrar por nome")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @GetMapping(value = "/filtrarPorNome", produces = "application/json")
+    public ResponseEntity<List<DadosRetornoProduto>> filtrarProdutoPorNome(@RequestParam String nome) {
+        List<Produto> dominio = service.filtrarPorNome(nome);
+        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
+    }
+
+    @Operation(description = "Retorna lista de produtos filtrados por categoria", summary = "Filtrar por categoria")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @GetMapping(value = "/filtrarPorCategoria", produces = "application/json")
+    public ResponseEntity<List<DadosRetornoProduto>> filtrarProdutoPorNome(@RequestParam Categoria categoria) {
+        List<Produto> dominio = service.filtrarPorCategoria(categoria);
+        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
+    }
+
+    @Operation(description = "Retorna lista de todos produtos", summary = "Retorna todos os produtos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<DadosRetornoProduto>> todosProdutos() {
+        List<Produto> dominio = service.retornarTodosProdutos();
+        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
     }
 
     @Operation(description = "Atualiza os dados do produto", summary = "Atualizar produto")

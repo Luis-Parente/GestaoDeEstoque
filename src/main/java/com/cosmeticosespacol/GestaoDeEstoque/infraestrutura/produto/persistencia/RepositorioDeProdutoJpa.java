@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface RepositorioDeProdutoJpa extends JpaRepository<ProdutoEntidade, UUID> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM tb_produto WHERE UPPER(nome) LIKE UPPER((CONCAT('%', :nome, '%'))")
+    @Query(nativeQuery = true, value = "SELECT * FROM tb_produto WHERE UPPER(nome) LIKE UPPER(CONCAT('%', :nome, '%'))")
     List<ProdutoEntidade> findByNome(String nome);
 
     List<ProdutoEntidade> findByCategoria(Categoria categoria);
