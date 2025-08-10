@@ -59,6 +59,16 @@ public class ServiceDeProduto {
         return repositorio.atualizarProduto(uuid, produtoAtualizado);
     }
 
+    public void aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+        filtrarPorUuid(uuid);
+        repositorio.adicionarQuantidadeDeProduto(uuid, quantidade);
+    }
+
+    public void removerQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+        filtrarPorUuid(uuid);
+        repositorio.removerQuantidadeDeProduto(uuid, quantidade);
+    }
+
     public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         filtrarPorUuid(uuid);
         repositorio.adicionarDescontoPorUuid(uuid, desconto);

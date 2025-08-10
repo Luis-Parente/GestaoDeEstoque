@@ -22,6 +22,10 @@ public interface RepositorioDeProduto {
 
     Produto atualizarProduto(UUID uuid, Produto produtoAtualizado);
 
+    void adicionarQuantidadeDeProduto(UUID uuid, Integer quantidade);
+
+    void removerQuantidadeDeProduto(UUID uuid, Integer quantidade);
+
     void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto);
 
     void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto);

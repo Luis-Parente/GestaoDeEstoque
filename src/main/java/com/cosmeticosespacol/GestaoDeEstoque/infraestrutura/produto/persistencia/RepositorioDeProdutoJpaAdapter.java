@@ -58,6 +58,20 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
     }
 
     @Override
+    public void adicionarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+        Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
+        dominio.get().adicionarEstoque(quantidade);
+        repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
+    }
+
+    @Override
+    public void removerQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+        Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
+        dominio.get().removerEstoque(quantidade);
+        repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
+    }
+
+    @Override
     public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
         dominio.get().setDesconto(desconto);
