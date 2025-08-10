@@ -20,17 +20,17 @@ public interface RepositorioDeProduto {
 
     List<Produto> buscarTodosProdutos();
 
-    Produto atualizarProduto(UUID uuid, Produto produtoAtualizado);
+    Produto atualizarProduto(Produto produtoAtualizado);
 
-    void adicionarQuantidadeDeProduto(UUID uuid, Integer quantidade);
+    void adicionarQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
 
-    void removerQuantidadeDeProduto(UUID uuid, Integer quantidade);
+    void removerQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
 
-    void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto);
+    void adicionarDescontoPorUuid(Produto produtoComDescontoAtualizada);
 
-    void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto);
+    void adicionarDescontoPorCategoria(List<Produto> listaDeProdutosComDescontoAtualizado);
 
-    void adicionarDescontroEmTodosProdutos(BigDecimal desconto);
+    void adicionarDescontroEmTodosProdutos(List<Produto> listaDeProdutosComDescontoAtualizado);
 
     void deletarProdutoPorUuid(UUID uuid);
 }

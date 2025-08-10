@@ -55,33 +55,47 @@ public class ServiceDeProduto {
     }
 
     public Produto atualizarProduto(UUID uuid, Produto produtoAtualizado) {
-        filtrarPorUuid(uuid);
-        return repositorio.atualizarProduto(uuid, produtoAtualizado);
+        Produto dominio = filtrarPorUuid(uuid);
+        dominio.setNome(produtoAtualizado.getNome());
+        dominio.setCategoria(produtoAtualizado.getCategoria());
+        dominio.setDescricao(produtoAtualizado.getDescricao());
+        dominio.setPreco(produtoAtualizado.getPreco());
+        dominio.setDesconto(produtoAtualizado.getDesconto());
+        return repositorio.atualizarProduto(dominio);
     }
 
     public void aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
-        filtrarPorUuid(uuid);
-        repositorio.adicionarQuantidadeDeProduto(uuid, quantidade);
+        Produto dominio = filtrarPorUuid(uuid);
+        dominio.adicionarEstoque(quantidade);
+        repositorio.adicionarQuantidadeDeProduto(dominio);
     }
 
     public void removerQuantidadeDeProduto(UUID uuid, Integer quantidade) {
-        filtrarPorUuid(uuid);
-        repositorio.removerQuantidadeDeProduto(uuid, quantidade);
+        Produto dominio = filtrarPorUuid(uuid);
+        dominio.removerEstoque(quantidade);
+        repositorio.removerQuantidadeDeProduto(dominio);
     }
 
     public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
-        filtrarPorUuid(uuid);
-        repositorio.adicionarDescontoPorUuid(uuid, desconto);
+        Produto dominio = filtrarPorUuid(uuid);
+        dominio.setDesconto(desconto);
+        repositorio.adicionarDescontoPorUuid(dominio);
     }
 
     public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
-        filtrarPorCategoria(categoria);
-        repositorio.adicionarDescontoPorCategoria(categoria, desconto);
+        List<Produto> resultado = filtrarPorCategoria(categoria);
+        for(Produto produto : resultado){
+            produto.setDesconto(desconto);
+        }
+        repositorio.adicionarDescontoPorCategoria(resultado);
     }
 
     public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
-        retornarTodosProdutos();
-        repositorio.adicionarDescontroEmTodosProdutos(desconto);
+        List<Produto> resultado = retornarTodosProdutos();
+        for(Produto produto : resultado){
+            produto.setDesconto(desconto);
+        }
+        repositorio.adicionarDescontroEmTodosProdutos(resultado);
     }
 
     public void deletarProdutoPorUuid(UUID uuid) {

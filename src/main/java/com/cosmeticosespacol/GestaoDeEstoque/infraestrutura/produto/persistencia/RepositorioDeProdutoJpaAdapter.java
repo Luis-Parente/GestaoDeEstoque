@@ -5,10 +5,10 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.entidade.ProdutoEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.mapper.ProdutoJpaMapper;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,79 +23,80 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
         this.repositorio = repositorio;
     }
 
+    @Transactional
     @Override
     public Produto cadastrarProduto(Produto novoProduto) {
         ProdutoEntidade entidade = ProdutoJpaMapper.paraEntidade(novoProduto);
         return ProdutoJpaMapper.paraDominio(repositorio.save(entidade));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<Produto> buscarProdutoPorUuid(UUID uuid) {
         return repositorio.findById(uuid).map(ProdutoJpaMapper::paraDominio);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Produto> buscarProdutoPorNome(String nome) {
         return repositorio.findByNome(nome).stream().map(ProdutoJpaMapper::paraDominio).toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Produto> buscarProdutoPorCategoria(Categoria categoria) {
         return repositorio.findByCategoria(categoria).stream().map(ProdutoJpaMapper::paraDominio).toList();
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Produto> buscarTodosProdutos() {
         return repositorio.findAll().stream().map(ProdutoJpaMapper::paraDominio).toList();
     }
 
+    @Transactional
     @Override
-    public Produto atualizarProduto(UUID uuid, Produto produtoAtualizado) {
+    public Produto atualizarProduto(Produto produtoAtualizado) {
         ProdutoEntidade entidadeAtualizada = ProdutoJpaMapper.paraEntidade(produtoAtualizado);
-        entidadeAtualizada.setUuid(uuid);
         return ProdutoJpaMapper.paraDominio(repositorio.save(entidadeAtualizada));
     }
 
+    @Transactional
     @Override
-    public void adicionarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
-        Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
-        dominio.get().adicionarEstoque(quantidade);
-        repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
+    public void adicionarQuantidadeDeProduto(Produto produtoAtualizado) {
+        repositorio.save(ProdutoJpaMapper.paraEntidade(produtoAtualizado));
     }
 
+    @Transactional
     @Override
-    public void removerQuantidadeDeProduto(UUID uuid, Integer quantidade) {
-        Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
-        dominio.get().removerEstoque(quantidade);
-        repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
+    public void removerQuantidadeDeProduto(Produto produtoAtualizado) {
+        repositorio.save(ProdutoJpaMapper.paraEntidade(produtoAtualizado));
     }
 
+    @Transactional
     @Override
-    public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
-        Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
-        dominio.get().setDesconto(desconto);
-        repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
+    public void adicionarDescontoPorUuid(Produto produtoAtualizado) {
+        repositorio.save(ProdutoJpaMapper.paraEntidade(produtoAtualizado));
     }
 
+    @Transactional
     @Override
-    public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
-        List<Produto> resultado = buscarProdutoPorCategoria(categoria);
-        for (Produto produto : resultado) {
-            produto.setDesconto(desconto);
+    public void adicionarDescontoPorCategoria(List<Produto> produtosAtualizado) {
+        for (Produto produto : produtosAtualizado) {
             repositorio.save(ProdutoJpaMapper.paraEntidade(produto));
         }
     }
 
+    @Transactional
     @Override
-    public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
-        List<Produto> resultado = buscarTodosProdutos();
-        for (Produto produto : resultado) {
-            produto.setDesconto(desconto);
+    public void adicionarDescontroEmTodosProdutos(List<Produto> produtosAtualizado) {
+        for (Produto produto : produtosAtualizado) {
             repositorio.save(ProdutoJpaMapper.paraEntidade(produto));
         }
     }
 
+    @Transactional
     @Override
     public void deletarProdutoPorUuid(UUID uuid) {
         repositorio.deleteById(uuid);
