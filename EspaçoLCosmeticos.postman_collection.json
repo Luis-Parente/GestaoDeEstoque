@@ -1,0 +1,408 @@
+{
+	"info": {
+		"_postman_id": "e1336a9b-58b4-4d6a-8df3-cb8f7473d66f",
+		"name": "EspaçoLCosmeticos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39070626"
+	},
+	"item": [
+		{
+			"name": "Produto",
+			"item": [
+				{
+					"name": "Novo produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Batom Vermelho Coral\",\r\n    \"categoria\": \"BATOM\",\r\n    \"descricao\": \"Batom da coleção de primavera\",\r\n    \"preco\": 33.50,\r\n    \"quantidade\": 100,\r\n    \"desconto\": 0.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/produto",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto por uuid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/0d5da92e-3805-4f37-968a-ed23534d7d24",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"0d5da92e-3805-4f37-968a-ed23534d7d24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto por nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/filtrarPorNome?nome=Batom",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"filtrarPorNome"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "Batom"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto por categoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/filtrarPorCategoria?categoria=BATOM",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"filtrarPorCategoria"
+							],
+							"query": [
+								{
+									"key": "categoria",
+									"value": "BATOM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Todos produtos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar produto por uuid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Batom Azul Baleia Atualizado\",\r\n    \"categoria\": \"BATOM\",\r\n    \"descricao\": \"Batom da coleção de primavera\",\r\n    \"preco\": 100.0,\r\n    \"quantidade\": 100,\r\n    \"desconto\": 20.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/produto/0d5da92e-3805-4f37-968a-ed23534d7d24",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"0d5da92e-3805-4f37-968a-ed23534d7d24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aumentar quantidade por uuid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"desconto\": 10.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/produto/darEntrada/0d5da92e-3805-4f37-968a-ed23534d7d24?quantidade=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"darEntrada",
+								"0d5da92e-3805-4f37-968a-ed23534d7d24"
+							],
+							"query": [
+								{
+									"key": "quantidade",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diminuir quantidade por uuid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"desconto\": 10.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/produto/darSaida/0d5da92e-3805-4f37-968a-ed23534d7d24?quantidade=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"darSaida",
+								"0d5da92e-3805-4f37-968a-ed23534d7d24"
+							],
+							"query": [
+								{
+									"key": "quantidade",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desconto por uuid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/desconto/0d5da92e-3805-4f37-968a-ed23534d7d24?desconto=10.0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"desconto",
+								"0d5da92e-3805-4f37-968a-ed23534d7d24"
+							],
+							"query": [
+								{
+									"key": "desconto",
+									"value": "10.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desconto por categoria",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/descontoPorCategoria?categoria=BATOM&desconto=20.0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"descontoPorCategoria"
+							],
+							"query": [
+								{
+									"key": "categoria",
+									"value": "BATOM"
+								},
+								{
+									"key": "desconto",
+									"value": "20.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desconto em todos produtos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/desconto?desconto=30.0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"desconto"
+							],
+							"query": [
+								{
+									"key": "desconto",
+									"value": "30.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Produto por uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/produto/c0bfc398-15af-439f-9191-8c9410b9e8ee",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"produto",
+								"c0bfc398-15af-439f-9191-8c9410b9e8ee"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Novo usuário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Luís Alberto\",\r\n    \"email\": \"luis@gmail.com\",\r\n    \"senha\": \"123456789\",\r\n    \"nivelDeAcesso\": \"VENDEDOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário por uuid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/d15d0d5e-3c25-46d1-82d5-ad86067d0711",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"d15d0d5e-3c25-46d1-82d5-ad86067d0711"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualiza usuário por uuid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Marco Polo Atualizado\",\r\n    \"email\": \"marco@gmail.com\",\r\n    \"senha\": \"123456789\",\r\n    \"nivelDeAcesso\": \"VENDEDOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuario/d15d0d5e-3c25-46d1-82d5-ad86067d0711",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"d15d0d5e-3c25-46d1-82d5-ad86067d0711"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário por uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuario/d15d0d5e-3c25-46d1-82d5-ad86067d0711",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuario",
+								"d15d0d5e-3c25-46d1-82d5-ad86067d0711"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

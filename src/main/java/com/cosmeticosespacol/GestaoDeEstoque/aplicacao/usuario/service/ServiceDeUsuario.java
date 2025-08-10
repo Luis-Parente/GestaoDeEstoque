@@ -2,20 +2,28 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.RepositorioDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
+import com.cosmeticosespacol.GestaoDeEstoque.excecao.DadoRepetidoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class ServiceDeUsuario {
 
     private final RepositorioDeUsuario repositorio;
 
+    @Autowired
     public ServiceDeUsuario(RepositorioDeUsuario repositorioDeUsuario) {
         this.repositorio = repositorioDeUsuario;
     }
 
     public Usuario cadastrarNovoUsuario(Usuario novoUsuario) {
-        return repositorio.cadastrarUsuario(novoUsuario);
+        if (repositorio.validarEmail(novoUsuario.getEmail())) {
+            throw new DadoRepetidoExcecao("Já existe usuário com esse e-mail!");
+        }
+        return repositorio.salvarUsuario(novoUsuario);
     }
 
     public Usuario filtrarPorUuid(UUID uuid) {
@@ -24,12 +32,17 @@ public class ServiceDeUsuario {
     }
 
     public Usuario atualizarUsuario(UUID uuid, Usuario usuarioAtualizado) {
-        filtrarPorUuid(uuid);
-        return repositorio.atualizarUsuario(uuid, usuarioAtualizado);
+        Usuario dominio = filtrarPorUuid(uuid);
+        dominio.setNome(usuarioAtualizado.getNome());
+        dominio.setEmail(usuarioAtualizado.getEmail());
+        dominio.setSenha(usuarioAtualizado.getSenha());
+        dominio.setNivelDeAcesso(usuarioAtualizado.getNivelDeAcesso());
+        return repositorio.salvarUsuario(dominio);
     }
 
-    public void deletarUsuarioPorUuid(UUID uuid) {
+    public String deletarUsuarioPorUuid(UUID uuid) {
         filtrarPorUuid(uuid);
         repositorio.deletarUsuarioPorUuid(uuid);
+        return "Usuário deletado com sucesso!";
     }
 }

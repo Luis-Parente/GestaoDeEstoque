@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface RepositorioDeUsuario {
 
-    Usuario cadastrarUsuario(Usuario novoUsuario);
+    Usuario salvarUsuario(Usuario usuario);
+
+    boolean validarEmail(String email);
 
     Optional<Usuario> buscarUsuarioPorUuid(UUID uuid);
-
-    Usuario atualizarUsuario(UUID uuid, Usuario usuarioAtualizado);
 
     void deletarUsuarioPorUuid(UUID uuid);
 }
