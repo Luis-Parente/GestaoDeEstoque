@@ -26,7 +26,7 @@ public class ServiceDeProduto {
         if (repositorio.validarNome(novoProduto.getNome())) {
             throw new DadoRepetidoExcecao("Já existe produto com esse nome cadastrado!");
         }
-        return repositorio.cadastrarProduto(novoProduto);
+        return repositorio.salvarProduto(novoProduto);
     }
 
     public Produto filtrarPorUuid(UUID uuid) {
@@ -65,7 +65,7 @@ public class ServiceDeProduto {
         dominio.setDescricao(produtoAtualizado.getDescricao());
         dominio.setPreco(produtoAtualizado.getPreco());
         dominio.atualizarDesconto(produtoAtualizado.getDesconto());
-        return repositorio.atualizarProduto(dominio);
+        return repositorio.salvarProduto(dominio);
     }
 
     public String aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {

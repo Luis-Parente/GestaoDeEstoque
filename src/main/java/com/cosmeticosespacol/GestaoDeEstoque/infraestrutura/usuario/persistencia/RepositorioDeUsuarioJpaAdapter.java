@@ -6,6 +6,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.entidade.Usu
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,22 +21,26 @@ public class RepositorioDeUsuarioJpaAdapter implements RepositorioDeUsuario {
         this.repositorio = repositorio;
     }
 
+    @Transactional
     @Override
     public Usuario salvarUsuario(Usuario usuario) {
         UsuarioEntidade entidade = UsuarioJpaMapper.paraEntidade(usuario);
         return UsuarioJpaMapper.paraDominio(repositorio.save(entidade));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean validarEmail(String email) {
         return repositorio.validarEmail(email);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<Usuario> buscarUsuarioPorUuid(UUID uuid) {
         return repositorio.findById(uuid).map(UsuarioJpaMapper::paraDominio);
     }
 
+    @Transactional
     @Override
     public void deletarUsuarioPorUuid(UUID uuid) {
         repositorio.deleteById(uuid);

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface RepositorioDeProduto {
 
-    Produto cadastrarProduto(Produto novoProduto);
+    Produto salvarProduto(Produto produto);
 
     Optional<Produto> buscarProdutoPorUuid(UUID uuid);
 
@@ -20,8 +20,6 @@ public interface RepositorioDeProduto {
     List<Produto> buscarProdutoPorCategoria(Categoria categoria);
 
     List<Produto> buscarTodosProdutos();
-
-    Produto atualizarProduto(Produto produtoAtualizado);
 
     void adicionarQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
 

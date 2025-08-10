@@ -25,7 +25,7 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
 
     @Transactional
     @Override
-    public Produto cadastrarProduto(Produto novoProduto) {
+    public Produto salvarProduto(Produto novoProduto) {
         ProdutoEntidade entidade = ProdutoJpaMapper.paraEntidade(novoProduto);
         return ProdutoJpaMapper.paraDominio(repositorio.save(entidade));
     }
@@ -59,13 +59,6 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
     @Override
     public List<Produto> buscarTodosProdutos() {
         return repositorio.findAll().stream().map(ProdutoJpaMapper::paraDominio).toList();
-    }
-
-    @Transactional
-    @Override
-    public Produto atualizarProduto(Produto produtoAtualizado) {
-        ProdutoEntidade entidadeAtualizada = ProdutoJpaMapper.paraEntidade(produtoAtualizado);
-        return ProdutoJpaMapper.paraDominio(repositorio.save(entidadeAtualizada));
     }
 
     @Transactional
