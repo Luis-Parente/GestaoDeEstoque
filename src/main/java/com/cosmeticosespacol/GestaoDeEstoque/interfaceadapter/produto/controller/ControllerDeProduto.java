@@ -6,6 +6,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.MensagemDeSucesso;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.mapper.ProdutoMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -87,7 +88,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<DadosRetornoProduto>> todosProdutos() {
+    public ResponseEntity<List<DadosRetornoProduto>> retornarTodosProdutos() {
         List<Produto> dominio = service.retornarTodosProdutos();
         return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
     }
@@ -107,71 +108,71 @@ public class ControllerDeProduto {
 
     @Operation(description = "Aumenta quantidade de um produto filtrado por uuid", summary = "Adicionar estoque por uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Quantidade do produto atualizada com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Quantidade do produto atualizada com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/darEntrada/{uuid}", produces = "application/json")
-    public ResponseEntity<Void> adicionarQuantidadePorUuid(@PathVariable UUID uuid,
-                                                           @RequestParam Integer quantidade) {
-        service.aumentarQuantidadeDeProduto(uuid, quantidade);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> aumentarQuantidadeDoProdutoPorUuid(@PathVariable UUID uuid,
+                                                                                @RequestParam Integer quantidade) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.aumentarQuantidadeDeProduto(uuid, quantidade));
+        return ResponseEntity.ok().body(mensagem);
     }
 
     @Operation(description = "Diminui quantidade de um produto filtrado por uuid", summary = "Diminuir estoque por uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Quantidade do produto atualizada com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Quantidade do produto atualizada com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/darSaida/{uuid}", produces = "application/json")
-    public ResponseEntity<Void> removerQuantidadePorUuid(@PathVariable UUID uuid,
-                                                         @RequestParam Integer quantidade) {
-        service.removerQuantidadeDeProduto(uuid, quantidade);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> diminuirQuantidadeDoProdutoPorUuid(@PathVariable UUID uuid,
+                                                                                @RequestParam Integer quantidade) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.diminuirQuantidadeDeProduto(uuid, quantidade));
+        return ResponseEntity.ok().body(mensagem);
     }
 
     @Operation(description = "Atualiza o desconto de um produto filtrado por uuid", summary = "Desconto por uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Desconto do produto atualizado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Desconto do produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/desconto/{uuid}", produces = "application/json")
-    public ResponseEntity<Void> descontoPorUuid(@PathVariable UUID uuid,
-                                                @RequestParam BigDecimal desconto) {
-        service.adicionarDescontoPorUuid(uuid, desconto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDoProdutoPorUuid(@PathVariable UUID uuid,
+                                                                              @RequestParam BigDecimal desconto) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorUuid(uuid, desconto));
+        return ResponseEntity.ok().body(mensagem);
     }
 
     @Operation(description = "Atualiza o desconto de produtos filtrados por categoria", summary = "Desconto por categoria")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Desconto dos produtos atualizado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/descontoPorCategoria", produces = "application/json")
-    public ResponseEntity<Void> descontoPorCategoria(@RequestParam Categoria categoria,
-                                                     @RequestParam BigDecimal desconto) {
-        service.adicionarDescontoPorCategoria(categoria, desconto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDoProdutPorCategoria(@RequestParam Categoria categoria,
+                                                                                  @RequestParam BigDecimal desconto) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorCategoria(categoria, desconto));
+        return ResponseEntity.ok().body(mensagem);
     }
 
     @Operation(description = "Atualiza o desconto de todos os produtos", summary = "Desconto em todos produtos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Desconto dos produtos atualizado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/desconto", produces = "application/json")
-    public ResponseEntity<Void> descontoEmTodosProdutos(@RequestParam BigDecimal desconto) {
-        service.adicionarDescontroEmTodosProdutos(desconto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDeTodosProdutos(@RequestParam BigDecimal desconto) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontroEmTodosProdutos(desconto));
+        return ResponseEntity.ok().body(mensagem);
     }
 
     @Operation(description = "Deleta produto por uuid", summary = "Deletar produto")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Produto excluido com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
+            @ApiResponse(responseCode = "200", description = "Produto excluido com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @DeleteMapping(value = "/{uuid}", produces = "application/json")
-    public ResponseEntity<Void> deletarProduto(@PathVariable UUID uuid) {
-        service.deletarProdutoPorUuid(uuid);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<MensagemDeSucesso> deletarProdutoPorUuid(@PathVariable UUID uuid) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.deletarProdutoPorUuid(uuid));
+        return ResponseEntity.ok().body(mensagem);
     }
 }

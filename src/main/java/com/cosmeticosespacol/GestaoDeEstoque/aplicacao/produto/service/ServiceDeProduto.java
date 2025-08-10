@@ -64,42 +64,48 @@ public class ServiceDeProduto {
         return repositorio.atualizarProduto(dominio);
     }
 
-    public void aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+    public String aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.adicionarEstoque(quantidade);
         repositorio.adicionarQuantidadeDeProduto(dominio);
+        return "Estoque atualizado com sucesso";
     }
 
-    public void removerQuantidadeDeProduto(UUID uuid, Integer quantidade) {
+    public String diminuirQuantidadeDeProduto(UUID uuid, Integer quantidade) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.removerEstoque(quantidade);
         repositorio.removerQuantidadeDeProduto(dominio);
+        return "Estoque atualizado com sucesso";
     }
 
-    public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
+    public String adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.atualizarDesconto(desconto);
         repositorio.adicionarDescontoPorUuid(dominio);
+        return "Desconto atualizado com sucesso";
     }
 
-    public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
+    public String adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
         List<Produto> resultado = filtrarPorCategoria(categoria);
-        for(Produto produto : resultado){
+        for (Produto produto : resultado) {
             produto.atualizarDesconto(desconto);
+            repositorio.adicionarDescontoPorUuid(produto);
         }
-        repositorio.adicionarDescontoPorCategoria(resultado);
+        return "Desconto atualizado com sucesso";
     }
 
-    public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
+    public String adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
         List<Produto> resultado = retornarTodosProdutos();
-        for(Produto produto : resultado){
+        for (Produto produto : resultado) {
             produto.atualizarDesconto(desconto);
+            repositorio.adicionarDescontoPorUuid(produto);
         }
-        repositorio.adicionarDescontroEmTodosProdutos(resultado);
+        return "Desconto atualizado com sucesso";
     }
 
-    public void deletarProdutoPorUuid(UUID uuid) {
+    public String deletarProdutoPorUuid(UUID uuid) {
         filtrarPorUuid(uuid);
         repositorio.deletarProdutoPorUuid(uuid);
+        return "Produto deletado com sucesso";
     }
 }

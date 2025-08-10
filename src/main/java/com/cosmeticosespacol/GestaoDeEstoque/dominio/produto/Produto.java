@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Produto {
 
-    private UUID uuid;
+    private final UUID uuid;
     private String nome;
     private Categoria categoria;
     private String descricao;
@@ -45,7 +45,8 @@ public class Produto {
         this.preco = preco;
         this.quantidade = quantidade;
         this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
-        this.precoComDesconto = preco.multiply(BigDecimal.ONE.subtract(desconto.divide(BigDecimal.valueOf(100))))
+        this.precoComDesconto = preco.multiply(
+                        BigDecimal.ONE.subtract(desconto.divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP)))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -95,7 +96,8 @@ public class Produto {
             throw new IllegalArgumentException("Preço inválido!");
         }
         this.preco = preco.setScale(2, RoundingMode.HALF_UP);
-        this.precoComDesconto = preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))))
+        this.precoComDesconto = preco.multiply(
+                        BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP)))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -130,7 +132,8 @@ public class Produto {
             throw new IllegalArgumentException("Desconto inválido!");
         }
         this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
-        this.precoComDesconto = this.preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))))
+        this.precoComDesconto = this.preco.multiply(
+                        BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP)))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 }

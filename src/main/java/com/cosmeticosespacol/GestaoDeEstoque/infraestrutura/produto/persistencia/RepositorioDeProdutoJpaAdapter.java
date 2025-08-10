@@ -5,9 +5,9 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.entidade.ProdutoEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.mapper.ProdutoJpaMapper;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,22 +78,6 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
     @Override
     public void adicionarDescontoPorUuid(Produto produtoAtualizado) {
         repositorio.save(ProdutoJpaMapper.paraEntidade(produtoAtualizado));
-    }
-
-    @Transactional
-    @Override
-    public void adicionarDescontoPorCategoria(List<Produto> produtosAtualizado) {
-        for (Produto produto : produtosAtualizado) {
-            repositorio.save(ProdutoJpaMapper.paraEntidade(produto));
-        }
-    }
-
-    @Transactional
-    @Override
-    public void adicionarDescontroEmTodosProdutos(List<Produto> produtosAtualizado) {
-        for (Produto produto : produtosAtualizado) {
-            repositorio.save(ProdutoJpaMapper.paraEntidade(produto));
-        }
     }
 
     @Transactional

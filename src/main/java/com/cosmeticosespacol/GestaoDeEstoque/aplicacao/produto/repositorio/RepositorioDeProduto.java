@@ -3,7 +3,6 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.repositorio;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,10 +26,6 @@ public interface RepositorioDeProduto {
     void removerQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
 
     void adicionarDescontoPorUuid(Produto produtoComDescontoAtualizada);
-
-    void adicionarDescontoPorCategoria(List<Produto> listaDeProdutosComDescontoAtualizado);
-
-    void adicionarDescontroEmTodosProdutos(List<Produto> listaDeProdutosComDescontoAtualizado);
 
     void deletarProdutoPorUuid(UUID uuid);
 }
