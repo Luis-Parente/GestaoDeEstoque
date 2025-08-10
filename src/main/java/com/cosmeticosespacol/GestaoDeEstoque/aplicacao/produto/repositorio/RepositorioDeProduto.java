@@ -13,6 +13,8 @@ public interface RepositorioDeProduto {
 
     Optional<Produto> buscarProdutoPorUuid(UUID uuid);
 
+    boolean validarNome(String nome);
+
     List<Produto> buscarProdutoPorNome(String nome);
 
     List<Produto> buscarProdutoPorCategoria(Categoria categoria);

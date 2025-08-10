@@ -36,6 +36,11 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
         return repositorio.findById(uuid).map(ProdutoJpaMapper::paraDominio);
     }
 
+    @Override
+    public boolean validarNome(String nome) {
+        return repositorio.validarNome(nome);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<Produto> buscarProdutoPorNome(String nome) {

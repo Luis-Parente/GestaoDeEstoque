@@ -3,6 +3,7 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.service;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.repositorio.RepositorioDeProduto;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
+import com.cosmeticosespacol.GestaoDeEstoque.excecao.DadoRepetidoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class ServiceDeProduto {
     }
 
     public Produto cadastrarNovoProduto(Produto novoProduto) {
+        if (repositorio.validarNome(novoProduto.getNome())) {
+            throw new DadoRepetidoExcecao("Já existe produto com esse nome cadastrado!");
+        }
         return repositorio.cadastrarProduto(novoProduto);
     }
 

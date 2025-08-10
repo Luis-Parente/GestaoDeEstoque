@@ -29,4 +29,13 @@ public class ExcecaoHandler {
                 request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(DadoRepetidoExcecao.class)
+    public ResponseEntity<ErroCustomizado> illegalArgumentException(DadoRepetidoExcecao e,
+                                                                    HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErroCustomizado err = new ErroCustomizado(Instant.now(), status.value(), e.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 }

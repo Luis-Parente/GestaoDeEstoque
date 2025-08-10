@@ -16,4 +16,7 @@ public interface RepositorioDeProdutoJpa extends JpaRepository<ProdutoEntidade, 
     List<ProdutoEntidade> findByNome(String nome);
 
     List<ProdutoEntidade> findByCategoria(Categoria categoria);
+
+    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT 1 FROM tb_produto WHERE nome = :nome)")
+    boolean validarNome(String nome);
 }

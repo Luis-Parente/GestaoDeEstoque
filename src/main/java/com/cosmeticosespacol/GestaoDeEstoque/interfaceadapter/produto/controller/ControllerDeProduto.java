@@ -40,6 +40,7 @@ public class ControllerDeProduto {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Produto cadastrado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(produces = "application/json")
     public ResponseEntity<DadosRetornoProduto> cadastrarProduto(@RequestBody DadosEntradaProduto dadosEntradaProduto) {
