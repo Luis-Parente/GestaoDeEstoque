@@ -11,6 +11,7 @@ public class Produto {
     private Categoria categoria;
     private String descricao;
     private BigDecimal preco;
+    private BigDecimal precoComDesconto;
     private Integer quantidade;
     private BigDecimal desconto;
 
@@ -41,9 +42,11 @@ public class Produto {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;
-        this.preco = preco.multiply(BigDecimal.ONE.subtract(desconto.divide(BigDecimal.valueOf(100))));
+        this.preco = preco;
         this.quantidade = quantidade;
         this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
+        this.precoComDesconto = preco.multiply(BigDecimal.ONE.subtract(desconto.divide(BigDecimal.valueOf(100))))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     public UUID getUuid() {
@@ -91,7 +94,13 @@ public class Produto {
         if (preco == null || preco.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Preço inválido!");
         }
-        this.preco = preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))));
+        this.preco = preco.setScale(2, RoundingMode.HALF_UP);
+        this.precoComDesconto = preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))))
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getPrecoComDesconto() {
+        return precoComDesconto;
     }
 
     public Integer getQuantidade() {
@@ -116,10 +125,12 @@ public class Produto {
         return desconto;
     }
 
-    public void setDesconto(BigDecimal desconto) {
+    public void atualizarDesconto(BigDecimal desconto) {
         if (desconto == null || desconto.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Desconto inválido!");
         }
         this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
+        this.precoComDesconto = this.preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

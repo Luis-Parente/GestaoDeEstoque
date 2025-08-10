@@ -12,6 +12,6 @@ public class ProdutoJpaMapper {
 
     public static ProdutoEntidade paraEntidade(Produto dominio) {
         return new ProdutoEntidade(dominio.getUuid(), dominio.getNome(), dominio.getCategoria(), dominio.getDescricao(),
-                dominio.getPreco(), dominio.getQuantidade(), dominio.getDesconto());
+                dominio.getPreco(), dominio.getPrecoComDesconto(), dominio.getQuantidade(), dominio.getDesconto());
     }
 }

@@ -60,7 +60,7 @@ public class ServiceDeProduto {
         dominio.setCategoria(produtoAtualizado.getCategoria());
         dominio.setDescricao(produtoAtualizado.getDescricao());
         dominio.setPreco(produtoAtualizado.getPreco());
-        dominio.setDesconto(produtoAtualizado.getDesconto());
+        dominio.atualizarDesconto(produtoAtualizado.getDesconto());
         return repositorio.atualizarProduto(dominio);
     }
 
@@ -78,14 +78,14 @@ public class ServiceDeProduto {
 
     public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         Produto dominio = filtrarPorUuid(uuid);
-        dominio.setDesconto(desconto);
+        dominio.atualizarDesconto(desconto);
         repositorio.adicionarDescontoPorUuid(dominio);
     }
 
     public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
         List<Produto> resultado = filtrarPorCategoria(categoria);
         for(Produto produto : resultado){
-            produto.setDesconto(desconto);
+            produto.atualizarDesconto(desconto);
         }
         repositorio.adicionarDescontoPorCategoria(resultado);
     }
@@ -93,7 +93,7 @@ public class ServiceDeProduto {
     public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
         List<Produto> resultado = retornarTodosProdutos();
         for(Produto produto : resultado){
-            produto.setDesconto(desconto);
+            produto.atualizarDesconto(desconto);
         }
         repositorio.adicionarDescontroEmTodosProdutos(resultado);
     }

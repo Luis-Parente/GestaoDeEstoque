@@ -25,6 +25,7 @@ public class ProdutoEntidade {
     private String descricao;
     @Column(precision = 10, scale = 2)
     private BigDecimal preco;
+    private BigDecimal precoComDesconto;
     private Integer quantidade;
     @Column(precision = 10, scale = 2)
     private BigDecimal desconto;

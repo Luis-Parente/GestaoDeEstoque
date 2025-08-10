@@ -5,6 +5,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ProdutoMapper {
@@ -15,9 +16,16 @@ public class ProdutoMapper {
     }
 
     public static DadosRetornoProduto paraDto(Produto dominio) {
+        BigDecimal desconto = dominio.getDesconto().setScale(2, RoundingMode.HALF_UP);
+        BigDecimal preco = dominio.getPreco().setScale(2, RoundingMode.HALF_UP);
+
+        if (desconto.compareTo(BigDecimal.ZERO) != 0) {
+            preco = dominio.getPrecoComDesconto().setScale(2, RoundingMode.HALF_UP);
+        }
+
         return new DadosRetornoProduto(dominio.getUuid().toString(), dominio.getNome(),
                 dominio.getCategoria().toString(),
-                dominio.getDescricao(), dominio.getPreco().setScale(2, RoundingMode.HALF_UP), dominio.getQuantidade(),
+                dominio.getDescricao(), preco, dominio.getQuantidade(),
                 dominio.getDesconto().setScale(2, RoundingMode.HALF_UP));
     }
 }
