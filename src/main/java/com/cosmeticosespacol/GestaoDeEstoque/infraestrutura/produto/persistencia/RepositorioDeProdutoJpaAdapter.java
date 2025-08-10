@@ -8,6 +8,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.mapper.Produ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,14 +58,14 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
     }
 
     @Override
-    public void adicionarDescontoPorUuid(UUID uuid, Double desconto) {
+    public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         Optional<Produto> dominio = buscarProdutoPorUuid(uuid);
         dominio.get().setDesconto(desconto);
         repositorio.save(ProdutoJpaMapper.paraEntidade(dominio.get()));
     }
 
     @Override
-    public void adicionarDescontoPorCategoria(Categoria categoria, Double desconto) {
+    public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
         List<Produto> resultado = buscarProdutoPorCategoria(categoria);
         for (Produto produto : resultado) {
             produto.setDesconto(desconto);
@@ -73,7 +74,7 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
     }
 
     @Override
-    public void adicionarDescontroEmTodosProdutos(Double desconto) {
+    public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
         List<Produto> resultado = buscarTodosProdutos();
         for (Produto produto : resultado) {
             produto.setDesconto(desconto);

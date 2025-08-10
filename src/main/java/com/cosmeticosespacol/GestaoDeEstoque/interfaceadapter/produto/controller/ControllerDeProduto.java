@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class ControllerDeProduto {
 
     @Operation(description = "Retorna produto filtrado por uuid", summary = "Filtrar por uuid")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produto retornado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
+            @ApiResponse(responseCode = "200", description = "Produto retornado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(value = "/{uuid}", produces = "application/json")
@@ -60,7 +61,7 @@ public class ControllerDeProduto {
 
     @Operation(description = "Retorna lista de produtos filtrados por nome", summary = "Filtrar por nome")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(value = "/filtrarPorNome", produces = "application/json")
@@ -71,7 +72,7 @@ public class ControllerDeProduto {
 
     @Operation(description = "Retorna lista de produtos filtrados por categoria", summary = "Filtrar por categoria")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(value = "/filtrarPorCategoria", produces = "application/json")
@@ -82,7 +83,7 @@ public class ControllerDeProduto {
 
     @Operation(description = "Retorna lista de todos produtos", summary = "Retorna todos os produtos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produtos retornados com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(produces = "application/json")
@@ -93,7 +94,7 @@ public class ControllerDeProduto {
 
     @Operation(description = "Atualiza os dados do produto", summary = "Atualizar produto")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
+            @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
@@ -104,9 +105,44 @@ public class ControllerDeProduto {
         return ResponseEntity.ok().body(ProdutoMapper.paraDto(dominio));
     }
 
+    @Operation(description = "Atualiza o desconto de um produto filtrado por uuid", summary = "Desconto por uuid")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Desconto do produto atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @PutMapping(value = "/desconto/{uuid}", produces = "application/json")
+    public ResponseEntity<Void> descontoPorUuid(@PathVariable UUID uuid,
+                                                @RequestParam BigDecimal desconto) {
+        service.adicionarDescontoPorUuid(uuid, desconto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(description = "Atualiza o desconto de todos os produtos", summary = "Desconto em todos produtos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Desconto dos produtos atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @PutMapping(value = "/desconto", produces = "application/json")
+    public ResponseEntity<Void> descontoEmTodosProdutos(@RequestParam BigDecimal desconto) {
+        service.adicionarDescontroEmTodosProdutos(desconto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(description = "Atualiza o desconto de produtos filtrados por categoria", summary = "Desconto por categoria")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Desconto dos produtos atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
+    @PutMapping(value = "/descontoPorCategoria", produces = "application/json")
+    public ResponseEntity<Void> descontoPorCategoria(@RequestParam Categoria categoria,
+                                                     @RequestParam BigDecimal desconto) {
+        service.adicionarDescontoPorCategoria(categoria, desconto);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(description = "Deleta produto por uuid", summary = "Deletar produto")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Produto excluido com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
+            @ApiResponse(responseCode = "204", description = "Produto excluido com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @DeleteMapping(value = "/{uuid}", produces = "application/json")

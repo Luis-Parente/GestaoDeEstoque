@@ -1,5 +1,7 @@
 package com.cosmeticosespacol.GestaoDeEstoque.dominio.produto;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 public class Produto {
@@ -8,12 +10,12 @@ public class Produto {
     private String nome;
     private Categoria categoria;
     private String descricao;
-    private Double preco;
+    private BigDecimal preco;
     private Integer quantidade;
-    private Double desconto;
+    private BigDecimal desconto;
 
-    public Produto(UUID uuid, String nome, Categoria categoria, String descricao, Double preco, Integer quantidade,
-                   Double desconto) {
+    public Produto(UUID uuid, String nome, Categoria categoria, String descricao, BigDecimal preco, Integer quantidade,
+                   BigDecimal desconto) {
 
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("Nome deve ser preenchido!");
@@ -23,7 +25,7 @@ public class Produto {
             throw new IllegalArgumentException("Categoria deve ser preenchida!");
         }
 
-        if (preco == null || preco < 0.0) {
+        if (preco == null || preco.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Preço inválido!");
         }
 
@@ -31,7 +33,7 @@ public class Produto {
             throw new IllegalArgumentException("Quantidade inválida!");
         }
 
-        if (desconto < 0.0) {
+        if (desconto == null || desconto.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Desconto inválido!");
         }
 
@@ -39,9 +41,9 @@ public class Produto {
         this.nome = nome;
         this.categoria = categoria;
         this.descricao = descricao;
-        this.preco = preco;
+        this.preco = preco.multiply(BigDecimal.ONE.subtract(desconto.divide(BigDecimal.valueOf(100))));
         this.quantidade = quantidade;
-        this.desconto = desconto;
+        this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
     }
 
     public UUID getUuid() {
@@ -81,19 +83,15 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public Double getPreco() {
-        if (this.desconto == null || this.desconto == 0) {
-            return preco;
-        } else {
-            return (preco * (1 - (this.desconto / 100)));
-        }
+    public BigDecimal getPreco() {
+        return preco;
     }
 
-    public void setPreco(Double preco) {
-        if (preco == null || preco < 0.0) {
+    public void setPreco(BigDecimal preco) {
+        if (preco == null || preco.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Preço inválido!");
         }
-        this.preco = preco;
+        this.preco = preco.multiply(BigDecimal.ONE.subtract(this.desconto.divide(BigDecimal.valueOf(100))));
     }
 
     public Integer getQuantidade() {
@@ -101,7 +99,7 @@ public class Produto {
     }
 
     public void adicionarEstoque(Integer quantidade) {
-        if (quantidade == null) {
+        if (quantidade == null || quantidade < 0) {
             throw new IllegalArgumentException("Quantidade inválida!");
         }
         this.quantidade += quantidade;
@@ -114,14 +112,14 @@ public class Produto {
         this.quantidade -= quantidade;
     }
 
-    public Double getDesconto() {
+    public BigDecimal getDesconto() {
         return desconto;
     }
 
-    public void setDesconto(Double desconto) {
-        if (desconto <= 0.0) {
+    public void setDesconto(BigDecimal desconto) {
+        if (desconto == null || desconto.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Desconto inválido!");
         }
-        this.desconto = desconto;
+        this.desconto = desconto.setScale(2, RoundingMode.HALF_UP);
     }
 }

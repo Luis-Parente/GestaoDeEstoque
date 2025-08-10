@@ -4,6 +4,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -22,9 +23,11 @@ public class ProdutoEntidade {
     private String nome;
     private Categoria categoria;
     private String descricao;
-    private Double preco;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal preco;
     private Integer quantidade;
-    private Double desconto;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal desconto;
 
     @Override
     public boolean equals(Object o) {

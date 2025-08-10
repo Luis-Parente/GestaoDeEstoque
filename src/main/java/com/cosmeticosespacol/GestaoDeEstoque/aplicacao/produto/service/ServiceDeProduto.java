@@ -7,6 +7,7 @@ import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,17 +59,17 @@ public class ServiceDeProduto {
         return repositorio.atualizarProduto(uuid, produtoAtualizado);
     }
 
-    public void adicionarDescontoPorUuid(UUID uuid, Double desconto) {
+    public void adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         filtrarPorUuid(uuid);
         repositorio.adicionarDescontoPorUuid(uuid, desconto);
     }
 
-    public void adicionarDescontoPorCategoria(Categoria categoria, Double desconto) {
+    public void adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
         filtrarPorCategoria(categoria);
         repositorio.adicionarDescontoPorCategoria(categoria, desconto);
     }
 
-    public void adicionarDescontroEmTodosProdutos(Double desconto) {
+    public void adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
         retornarTodosProdutos();
         repositorio.adicionarDescontroEmTodosProdutos(desconto);
     }

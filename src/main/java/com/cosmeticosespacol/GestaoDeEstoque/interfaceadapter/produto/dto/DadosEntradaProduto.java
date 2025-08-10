@@ -1,5 +1,7 @@
 package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto;
 
-public record DadosEntradaProduto(String nome, String categoria, String descricao, Double preco,
-                                  Integer quantidade, Double desconto) {
+import java.math.BigDecimal;
+
+public record DadosEntradaProduto(String nome, String categoria, String descricao, BigDecimal preco,
+                                  Integer quantidade, BigDecimal desconto) {
 }

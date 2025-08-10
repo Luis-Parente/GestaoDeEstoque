@@ -5,6 +5,8 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
 
+import java.math.RoundingMode;
+
 public class ProdutoMapper {
 
     public static Produto paraDominio(DadosEntradaProduto dto) {
@@ -15,6 +17,7 @@ public class ProdutoMapper {
     public static DadosRetornoProduto paraDto(Produto dominio) {
         return new DadosRetornoProduto(dominio.getUuid().toString(), dominio.getNome(),
                 dominio.getCategoria().toString(),
-                dominio.getDescricao(), dominio.getPreco(), dominio.getQuantidade(), dominio.getDesconto());
+                dominio.getDescricao(), dominio.getPreco().setScale(2, RoundingMode.HALF_UP), dominio.getQuantidade(),
+                dominio.getDesconto().setScale(2, RoundingMode.HALF_UP));
     }
 }
