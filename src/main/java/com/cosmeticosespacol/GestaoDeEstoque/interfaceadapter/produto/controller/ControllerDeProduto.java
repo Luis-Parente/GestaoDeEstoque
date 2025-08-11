@@ -61,36 +61,15 @@ public class ControllerDeProduto {
         return ResponseEntity.ok().body(ProdutoMapper.paraDto(dominio));
     }
 
-    @Operation(description = "Retorna lista de produtos filtrados por nome", summary = "Filtrar por nome")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @GetMapping(value = "/filtrarPorNome", produces = "application/json")
-    public ResponseEntity<List<DadosRetornoProduto>> filtrarProdutoPorNome(@RequestParam String nome) {
-        List<Produto> dominio = service.filtrarPorNome(nome);
-        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
-    }
-
-    @Operation(description = "Retorna lista de produtos filtrados por categoria", summary = "Filtrar por categoria")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @GetMapping(value = "/filtrarPorCategoria", produces = "application/json")
-    public ResponseEntity<List<DadosRetornoProduto>> filtrarProdutoPorCategoria(@RequestParam Categoria categoria) {
-        List<Produto> dominio = service.filtrarPorCategoria(categoria);
-        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
-    }
-
-    @Operation(description = "Retorna lista de todos produtos", summary = "Retorna todos os produtos")
+    @Operation(description = "Retorna lista de produtos filtrados por nome e/ou categoria", summary = "Retorna produtos filtrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<DadosRetornoProduto>> retornarTodosProdutos() {
-        List<Produto> dominio = service.retornarTodosProdutos();
+    public ResponseEntity<List<DadosRetornoProduto>> retornarProdutosFiltrados(@RequestParam(required = false) String nome,
+                                                                               @RequestParam(required = false) Categoria categoria) {
+        List<Produto> dominio = service.retornarProdutosFiltrados(nome, categoria);
         return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
     }
 
@@ -113,7 +92,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/darEntrada/{uuid}", produces = "application/json")
-    public ResponseEntity<MensagemDeSucesso> aumentarQuantidadeDoProdutoPorUuid(@PathVariable UUID uuid,
+    public ResponseEntity<MensagemDeSucesso> aumentarQuantidadePorUuid(@PathVariable UUID uuid,
                                                                                 @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.aumentarQuantidadeDeProduto(uuid, quantidade));
         return ResponseEntity.ok().body(mensagem);
@@ -125,7 +104,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/darSaida/{uuid}", produces = "application/json")
-    public ResponseEntity<MensagemDeSucesso> diminuirQuantidadeDoProdutoPorUuid(@PathVariable UUID uuid,
+    public ResponseEntity<MensagemDeSucesso> diminuirQuantidadePorUuid(@PathVariable UUID uuid,
                                                                                 @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.diminuirQuantidadeDeProduto(uuid, quantidade));
         return ResponseEntity.ok().body(mensagem);
@@ -137,32 +116,23 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/desconto/{uuid}", produces = "application/json")
-    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDoProdutoPorUuid(@PathVariable UUID uuid,
+    public ResponseEntity<MensagemDeSucesso> atualizaDescontoPorUuid(@PathVariable UUID uuid,
                                                                               @RequestParam BigDecimal desconto) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorUuid(uuid, desconto));
         return ResponseEntity.ok().body(mensagem);
     }
 
-    @Operation(description = "Atualiza o desconto de produtos filtrados por categoria", summary = "Desconto por categoria")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @PutMapping(value = "/descontoPorCategoria", produces = "application/json")
-    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDoProdutPorCategoria(@RequestParam Categoria categoria,
-                                                                                  @RequestParam BigDecimal desconto) {
-        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorCategoria(categoria, desconto));
-        return ResponseEntity.ok().body(mensagem);
-    }
-
-    @Operation(description = "Atualiza o desconto de todos os produtos", summary = "Desconto em todos produtos")
+    @Operation(description = "Atualiza o desconto de produtos filtrados por nome e/ou categoria", summary = "Desconto filtrado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/desconto", produces = "application/json")
-    public ResponseEntity<MensagemDeSucesso> atualizaDescontoDeTodosProdutos(@RequestParam BigDecimal desconto) {
-        MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontroEmTodosProdutos(desconto));
+    public ResponseEntity<MensagemDeSucesso> atualizaDescontoFiltrado(@RequestParam(required = false) String nome,
+                                                                      @RequestParam(required = false) Categoria categoria,
+                                                                      @RequestParam BigDecimal desconto) {
+        MensagemDeSucesso mensagem = new MensagemDeSucesso(
+                service.adicionarDescontoFiltrado(nome, categoria, desconto));
         return ResponseEntity.ok().body(mensagem);
     }
 

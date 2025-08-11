@@ -54,55 +54,7 @@
 					"response": []
 				},
 				{
-					"name": "Produto por nome",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/produto/filtrarPorNome?nome=Batom",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"produto",
-								"filtrarPorNome"
-							],
-							"query": [
-								{
-									"key": "nome",
-									"value": "Batom"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Produto por categoria",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/produto/filtrarPorCategoria?categoria=BATOM",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"produto",
-								"filtrarPorCategoria"
-							],
-							"query": [
-								{
-									"key": "categoria",
-									"value": "BATOM"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Todos produtos",
+					"name": "Produtos filtrados",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -113,6 +65,18 @@
 							],
 							"path": [
 								"produto"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "batom",
+									"disabled": true
+								},
+								{
+									"key": "categoria",
+									"value": "PERFUME",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -239,35 +203,7 @@
 					"response": []
 				},
 				{
-					"name": "Desconto por categoria",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/produto/descontoPorCategoria?categoria=BATOM&desconto=20.0",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"produto",
-								"descontoPorCategoria"
-							],
-							"query": [
-								{
-									"key": "categoria",
-									"value": "BATOM"
-								},
-								{
-									"key": "desconto",
-									"value": "20.0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Desconto em todos produtos",
+					"name": "Desconto filtrado",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -281,6 +217,16 @@
 								"desconto"
 							],
 							"query": [
+								{
+									"key": "nome",
+									"value": "batom",
+									"disabled": true
+								},
+								{
+									"key": "categoria",
+									"value": "PERFUME",
+									"disabled": true
+								},
 								{
 									"key": "desconto",
 									"value": "30.0"

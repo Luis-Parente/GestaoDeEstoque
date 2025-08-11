@@ -11,21 +11,11 @@ public interface RepositorioDeProduto {
 
     Produto salvarProduto(Produto produto);
 
-    Optional<Produto> buscarProdutoPorUuid(UUID uuid);
-
     boolean validarNome(String nome);
 
-    List<Produto> buscarProdutoPorNome(String nome);
+    Optional<Produto> buscarProdutoPorUuid(UUID uuid);
 
-    List<Produto> buscarProdutoPorCategoria(Categoria categoria);
-
-    List<Produto> buscarTodosProdutos();
-
-    void adicionarQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
-
-    void removerQuantidadeDeProduto(Produto produtoComQuantidadeAtualizada);
-
-    void adicionarDescontoPorUuid(Produto produtoComDescontoAtualizada);
+    List<Produto> buscarProdutosFiltrados(String nome, Categoria categoria);
 
     void deletarProdutoPorUuid(UUID uuid);
 }

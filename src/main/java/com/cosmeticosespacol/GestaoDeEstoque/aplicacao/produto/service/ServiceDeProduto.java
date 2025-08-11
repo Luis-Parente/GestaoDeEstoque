@@ -34,24 +34,8 @@ public class ServiceDeProduto {
                 .orElseThrow(() -> new NaoEncontradoExcecao("Produto não encontrado!"));
     }
 
-    public List<Produto> filtrarPorNome(String nome) {
-        List<Produto> resultado = repositorio.buscarProdutoPorNome(nome);
-        if (resultado.isEmpty()) {
-            throw new NaoEncontradoExcecao("Nenhum produto com esse nome encontrado!");
-        }
-        return resultado;
-    }
-
-    public List<Produto> filtrarPorCategoria(Categoria categoria) {
-        List<Produto> resultado = repositorio.buscarProdutoPorCategoria(categoria);
-        if (resultado.isEmpty()) {
-            throw new NaoEncontradoExcecao("Nenhum produto dessa categoria!");
-        }
-        return resultado;
-    }
-
-    public List<Produto> retornarTodosProdutos() {
-        List<Produto> resultado = repositorio.buscarTodosProdutos();
+    public List<Produto> retornarProdutosFiltrados(String nome, Categoria categoria) {
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados(nome, categoria);
         if (resultado.isEmpty()) {
             throw new NaoEncontradoExcecao("Nenhum produto encontrado!");
         }
@@ -71,38 +55,29 @@ public class ServiceDeProduto {
     public String aumentarQuantidadeDeProduto(UUID uuid, Integer quantidade) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.adicionarEstoque(quantidade);
-        repositorio.adicionarQuantidadeDeProduto(dominio);
+        repositorio.salvarProduto(dominio);
         return "Estoque atualizado com sucesso";
     }
 
     public String diminuirQuantidadeDeProduto(UUID uuid, Integer quantidade) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.removerEstoque(quantidade);
-        repositorio.removerQuantidadeDeProduto(dominio);
+        repositorio.salvarProduto(dominio);
         return "Estoque atualizado com sucesso";
     }
 
     public String adicionarDescontoPorUuid(UUID uuid, BigDecimal desconto) {
         Produto dominio = filtrarPorUuid(uuid);
         dominio.atualizarDesconto(desconto);
-        repositorio.adicionarDescontoPorUuid(dominio);
+        repositorio.salvarProduto(dominio);
         return "Desconto atualizado com sucesso";
     }
 
-    public String adicionarDescontoPorCategoria(Categoria categoria, BigDecimal desconto) {
-        List<Produto> resultado = filtrarPorCategoria(categoria);
+    public String adicionarDescontoFiltrado(String nome, Categoria categoria, BigDecimal desconto) {
+        List<Produto> resultado = retornarProdutosFiltrados(nome, categoria);
         for (Produto produto : resultado) {
             produto.atualizarDesconto(desconto);
-            repositorio.adicionarDescontoPorUuid(produto);
-        }
-        return "Desconto atualizado com sucesso";
-    }
-
-    public String adicionarDescontroEmTodosProdutos(BigDecimal desconto) {
-        List<Produto> resultado = retornarTodosProdutos();
-        for (Produto produto : resultado) {
-            produto.atualizarDesconto(desconto);
-            repositorio.adicionarDescontoPorUuid(produto);
+            repositorio.salvarProduto(produto);
         }
         return "Desconto atualizado com sucesso";
     }
