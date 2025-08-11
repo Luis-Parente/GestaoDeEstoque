@@ -1,2 +1,2 @@
 # GestaoDeEstoque
-Projeto para gestão de produtos
+Projeto para gestão de produtos em desenvolvimento
