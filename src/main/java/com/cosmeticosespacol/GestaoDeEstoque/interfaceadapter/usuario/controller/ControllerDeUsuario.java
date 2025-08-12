@@ -3,7 +3,7 @@ package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.controlle
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service.ServiceDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.MensagemDeSucesso;
+import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.dto.MensagemDeSucesso;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosEntradaUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosRetornoUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.mapper.UsuarioMapper;
