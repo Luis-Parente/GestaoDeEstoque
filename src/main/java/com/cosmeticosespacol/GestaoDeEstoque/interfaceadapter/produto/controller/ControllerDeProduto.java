@@ -91,7 +91,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "200", description = "Quantidade do produto atualizada com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @PutMapping(value = "/darEntrada/{uuid}", produces = "application/json")
+    @PatchMapping(value = "/darEntrada/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> aumentarQuantidadePorUuid(@PathVariable UUID uuid,
                                                                                 @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.aumentarQuantidadeDeProduto(uuid, quantidade));
@@ -103,7 +103,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "200", description = "Quantidade do produto atualizada com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @PutMapping(value = "/darSaida/{uuid}", produces = "application/json")
+    @PatchMapping(value = "/darSaida/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> diminuirQuantidadePorUuid(@PathVariable UUID uuid,
                                                                                 @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.diminuirQuantidadeDeProduto(uuid, quantidade));
@@ -115,7 +115,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "200", description = "Desconto do produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @PutMapping(value = "/desconto/{uuid}", produces = "application/json")
+    @PatchMapping(value = "/desconto/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> atualizaDescontoPorUuid(@PathVariable UUID uuid,
                                                                               @RequestParam BigDecimal desconto) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorUuid(uuid, desconto));
@@ -127,7 +127,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
-    @PutMapping(value = "/desconto", produces = "application/json")
+    @PatchMapping(value = "/desconto", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> atualizaDescontoFiltrado(@RequestParam(required = false) String nome,
                                                                       @RequestParam(required = false) Categoria categoria,
                                                                       @RequestParam BigDecimal desconto) {
