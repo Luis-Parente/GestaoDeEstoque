@@ -37,7 +37,7 @@ public class ControllerDeUsuario {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoUsuario.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(produces = "application/json")
@@ -52,7 +52,7 @@ public class ControllerDeUsuario {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoUsuario.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<DadosRetornoUsuario> filtrarUsuarioPorUuid(@PathVariable UUID uuid) {
@@ -64,7 +64,7 @@ public class ControllerDeUsuario {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoUsuario.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/{uuid}", produces = "application/json")
@@ -78,7 +78,7 @@ public class ControllerDeUsuario {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário excluido com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @DeleteMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> deletarUsuarioPorUuid(@PathVariable UUID uuid) {

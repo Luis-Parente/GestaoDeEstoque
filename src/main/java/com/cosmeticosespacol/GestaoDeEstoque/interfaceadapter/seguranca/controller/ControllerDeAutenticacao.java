@@ -41,7 +41,7 @@ public class ControllerDeAutenticacao {
     @Operation(description = "Realiza login do usuário", summary = "Login")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso", content = @Content(schema = @Schema(implementation = RetornoLogin.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden")})
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)})
     @PostMapping(produces = "application/json")
     public ResponseEntity<RetornoLogin> login(@RequestBody DadosLogin dto) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(dto.email(),
