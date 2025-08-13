@@ -38,4 +38,12 @@ public class ExcecaoHandler {
                 request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(TokenExcecao.class)
+    public ResponseEntity<ErroCustomizado> token(TokenExcecao e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErroCustomizado err = new ErroCustomizado(Instant.now(), status.value(), e.getMessage(),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
 }

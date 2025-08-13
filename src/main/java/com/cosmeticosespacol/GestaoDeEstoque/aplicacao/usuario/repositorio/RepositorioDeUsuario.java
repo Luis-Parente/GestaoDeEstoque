@@ -13,5 +13,7 @@ public interface RepositorioDeUsuario {
 
     Optional<Usuario> buscarUsuarioPorUuid(UUID uuid);
 
+    Optional<Usuario> buscarUsuarioPorEmail(String email);
+
     void deletarUsuarioPorUuid(UUID uuid);
 }
