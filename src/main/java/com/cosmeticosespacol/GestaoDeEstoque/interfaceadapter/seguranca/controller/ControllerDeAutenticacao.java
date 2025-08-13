@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,7 +44,7 @@ public class ControllerDeAutenticacao {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso", content = @Content(schema = @Schema(implementation = RetornoLogin.class))),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)})
     @PostMapping(produces = "application/json")
-    public ResponseEntity<RetornoLogin> login(@RequestBody DadosLogin dto) {
+    public ResponseEntity<RetornoLogin> login(@RequestBody @Valid DadosLogin dto) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(dto.email(),
                 dto.senha());
         Authentication auth = authenticationManager.authenticate(usernamePassword);

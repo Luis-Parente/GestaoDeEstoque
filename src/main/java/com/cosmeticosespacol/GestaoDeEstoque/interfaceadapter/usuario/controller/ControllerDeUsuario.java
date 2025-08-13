@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class ControllerDeUsuario {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(produces = "application/json")
-    public ResponseEntity<DadosRetornoUsuario> cadastrarUsuario(@RequestBody DadosEntradaUsuario dadosEntradaUsuario) {
+    public ResponseEntity<DadosRetornoUsuario> cadastrarUsuario(@RequestBody @Valid DadosEntradaUsuario dadosEntradaUsuario) {
         Usuario dominio = service.cadastrarNovoUsuario(UsuarioMapper.paraDominio(dadosEntradaUsuario));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{uuid}").buildAndExpand(dominio.getUuid())
                 .toUri();
@@ -69,7 +70,7 @@ public class ControllerDeUsuario {
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<DadosRetornoUsuario> atualizarUsuario(@PathVariable UUID uuid,
-                                                                @RequestBody DadosEntradaUsuario dadosEntradaUsuario) {
+                                                                @RequestBody @Valid DadosEntradaUsuario dadosEntradaUsuario) {
         Usuario dominio = service.atualizarUsuario(uuid, UsuarioMapper.paraDominio(dadosEntradaUsuario));
         return ResponseEntity.ok().body(UsuarioMapper.paraDto(dominio));
     }

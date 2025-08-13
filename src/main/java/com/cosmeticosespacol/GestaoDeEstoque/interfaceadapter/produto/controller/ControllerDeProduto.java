@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(produces = "application/json")
-    public ResponseEntity<DadosRetornoProduto> cadastrarProduto(@RequestBody DadosEntradaProduto dadosEntradaProduto) {
+    public ResponseEntity<DadosRetornoProduto> cadastrarProduto(@RequestBody @Valid DadosEntradaProduto dadosEntradaProduto) {
         Produto dominio = service.cadastrarNovoProduto(ProdutoMapper.paraDominio(dadosEntradaProduto));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{uuid}").buildAndExpand(dominio.getUuid())
                 .toUri();
@@ -86,7 +87,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<DadosRetornoProduto> atualizarProduto(@PathVariable UUID uuid,
-                                                                @RequestBody DadosEntradaProduto dadosEntradaProduto) {
+                                                                @RequestBody @Valid DadosEntradaProduto dadosEntradaProduto) {
         Produto dominio = service.atualizarProduto(uuid, ProdutoMapper.paraDominio(dadosEntradaProduto));
         return ResponseEntity.ok().body(ProdutoMapper.paraDto(dominio));
     }
@@ -99,7 +100,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PatchMapping(value = "/darEntrada/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> aumentarQuantidadePorUuid(@PathVariable UUID uuid,
-                                                                                @RequestParam Integer quantidade) {
+                                                                       @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.aumentarQuantidadeDeProduto(uuid, quantidade));
         return ResponseEntity.ok().body(mensagem);
     }
@@ -112,7 +113,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PatchMapping(value = "/darSaida/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> diminuirQuantidadePorUuid(@PathVariable UUID uuid,
-                                                                                @RequestParam Integer quantidade) {
+                                                                       @RequestParam Integer quantidade) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.diminuirQuantidadeDeProduto(uuid, quantidade));
         return ResponseEntity.ok().body(mensagem);
     }
@@ -125,7 +126,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PatchMapping(value = "/desconto/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> atualizaDescontoPorUuid(@PathVariable UUID uuid,
-                                                                              @RequestParam BigDecimal desconto) {
+                                                                     @RequestParam BigDecimal desconto) {
         MensagemDeSucesso mensagem = new MensagemDeSucesso(service.adicionarDescontoPorUuid(uuid, desconto));
         return ResponseEntity.ok().body(mensagem);
     }
