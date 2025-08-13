@@ -40,7 +40,8 @@ public class ControllerDeProduto {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Produto cadastrado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(produces = "application/json")
     public ResponseEntity<DadosRetornoProduto> cadastrarProduto(@RequestBody DadosEntradaProduto dadosEntradaProduto) {
@@ -78,6 +79,7 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = DadosRetornoProduto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PutMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<DadosRetornoProduto> atualizarProduto(@PathVariable UUID uuid,
@@ -114,6 +116,7 @@ public class ControllerDeProduto {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Desconto do produto atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PatchMapping(value = "/desconto/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> atualizaDescontoPorUuid(@PathVariable UUID uuid,
@@ -126,6 +129,7 @@ public class ControllerDeProduto {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Desconto dos produtos atualizado com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PatchMapping(value = "/desconto", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> atualizaDescontoFiltrado(@RequestParam(required = false) String nome,
@@ -140,6 +144,7 @@ public class ControllerDeProduto {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Produto excluido com sucesso", content = @Content(schema = @Schema(implementation = MensagemDeSucesso.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @DeleteMapping(value = "/{uuid}", produces = "application/json")
     public ResponseEntity<MensagemDeSucesso> deletarProdutoPorUuid(@PathVariable UUID uuid) {

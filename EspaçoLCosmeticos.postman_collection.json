@@ -12,6 +12,16 @@
 				{
 					"name": "Novo produto",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -38,6 +48,16 @@
 				{
 					"name": "Produto por uuid",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -56,6 +76,16 @@
 				{
 					"name": "Produtos filtrados",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -85,6 +115,16 @@
 				{
 					"name": "Atualizar produto por uuid",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -112,7 +152,17 @@
 				{
 					"name": "Aumentar quantidade por uuid",
 					"request": {
-						"method": "PUT",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -146,7 +196,17 @@
 				{
 					"name": "Diminuir quantidade por uuid",
 					"request": {
-						"method": "PUT",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -180,7 +240,17 @@
 				{
 					"name": "Desconto por uuid",
 					"request": {
-						"method": "PUT",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
 						"header": [],
 						"url": {
 							"raw": "{{host}}/produto/desconto/0d5da92e-3805-4f37-968a-ed23534d7d24?desconto=10.0",
@@ -205,7 +275,17 @@
 				{
 					"name": "Desconto filtrado",
 					"request": {
-						"method": "PUT",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
 						"header": [],
 						"url": {
 							"raw": "{{host}}/produto/desconto?desconto=30.0",
@@ -239,6 +319,16 @@
 				{
 					"name": "Produto por uuid",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -262,6 +352,16 @@
 				{
 					"name": "Novo usuário",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -288,6 +388,16 @@
 				{
 					"name": "Usuário por uuid",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -333,6 +443,16 @@
 				{
 					"name": "Usuário por uuid",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -343,6 +463,55 @@
 							"path": [
 								"usuario",
 								"d15d0d5e-3c25-46d1-82d5-ad86067d0711"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.environment.set(\"token\", json.token);\r",
+									"    console.log(\"Token salvo:\", json.token);\r",
+									"} else {\r",
+									"    console.log(\"Erro ao salvar token. Código:\", pm.response.code);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"luana@gmail.com\",\r\n    \"senha\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
 							]
 						}
 					},

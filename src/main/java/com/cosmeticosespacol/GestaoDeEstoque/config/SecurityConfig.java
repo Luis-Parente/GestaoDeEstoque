@@ -40,8 +40,11 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-            auth.requestMatchers(HttpMethod.POST, "/usuario").hasRole("ADMINISTRADOR");
-            auth.requestMatchers(HttpMethod.PUT, "/usuario").hasRole("ADMINISTRADOR");
+            auth.requestMatchers("/usuario/**").hasRole("ADMINISTRADOR");
+            auth.requestMatchers(HttpMethod.POST, "/produto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");
+            auth.requestMatchers(HttpMethod.PUT, "/produto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");
+            auth.requestMatchers(HttpMethod.DELETE, "/produto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");
+            auth.requestMatchers(HttpMethod.PATCH, "/produto/desconto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");
             auth.requestMatchers("/swagger-ui/**").permitAll();
             auth.requestMatchers("/v3/**").permitAll();
             auth.anyRequest().authenticated();
