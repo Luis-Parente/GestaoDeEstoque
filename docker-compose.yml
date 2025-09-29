@@ -13,12 +13,16 @@ services:
       - "5432:5432"
 
   backend:
-    image: espacol_backend:1.0
+    build: ./backend
     container_name: backend
     depends_on:
       - database
     networks:
       - compose-bridge
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_URL: jdbc:postgresql://database:5432/dados
     ports:
       - "8080:8080"
 
