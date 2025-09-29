@@ -3,25 +3,23 @@ package com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login;
 import com.cosmeticosespacol.GestaoDeEstoque_Frontend.Launcher;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController {
 
     @FXML
     private TextField txtEmail;
 
     @FXML
-    private TextField txtSenha;
+    private PasswordField passwordFieldSenha;
 
     @FXML
     private Button btnEntrar;
@@ -47,7 +45,7 @@ public class LoginController implements Initializable {
             labelEmailError.setVisible(true);
         }
 
-        String senha = txtSenha.getText();
+        String senha = passwordFieldSenha.getText();
         if (senha.isEmpty()) {
             labelSenhaError.setText("Campo senha é obrigatorio");
             labelSenhaError.setVisible(true);
@@ -58,26 +56,21 @@ public class LoginController implements Initializable {
         if (!sucesso && !email.isEmpty() && !senha.isEmpty()) {
             labelLoginError.setText("Usuário ou senha incorretos!");
             labelLoginError.setVisible(true);
+        } else if (sucesso) {
+            loadView("/gui/MainMenu/MainMenu.fxml");
         }
-        else if (sucesso) {
-            loadView("/gui/mainMenu/mainMenu.fxml");
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
     private void loadView(String caminho) {
-        try{
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
             VBox vbox = loader.load();
 
             Scene scene = Launcher.getScene();
 
-            AnchorPane anchorPane = (AnchorPane) scene.getRoot();
-            anchorPane.getChildren().clear();
-            anchorPane.getChildren().addAll(vbox);
+            VBox root = (VBox) scene.getRoot(); // agora bate
+            root.getChildren().clear();
+            root.getChildren().add(vbox);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
