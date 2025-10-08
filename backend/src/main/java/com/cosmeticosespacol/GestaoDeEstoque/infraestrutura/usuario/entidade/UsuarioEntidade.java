@@ -28,6 +28,7 @@ public class UsuarioEntidade implements UserDetails {
     private String nome;
     private String email;
     private String senha;
+    @Enumerated(EnumType.STRING)
     private NivelDeAcesso nivelDeAcesso;
 
     @Override

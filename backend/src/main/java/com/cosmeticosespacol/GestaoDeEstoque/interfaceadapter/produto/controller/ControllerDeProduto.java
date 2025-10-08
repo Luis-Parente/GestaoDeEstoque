@@ -71,11 +71,11 @@ public class ControllerDeProduto {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<DadosRetornoProduto>> retornarProdutosFiltrados(@RequestParam(required = false) String nome,
-                                                                               @RequestParam(required = false) Categoria categoria) {
-        List<Produto> dominio = service.retornarProdutosFiltrados(nome, categoria);
-        return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
-    }
+        public ResponseEntity<List<DadosRetornoProduto>> retornarProdutosFiltrados(@RequestParam(required = false) String nome,
+                                                                                   @RequestParam(required = false) Categoria categoria) {
+            List<Produto> dominio = service.retornarProdutosFiltrados(nome, categoria);
+            return ResponseEntity.ok().body(dominio.stream().map(ProdutoMapper::paraDto).toList());
+        }
 
     @Operation(description = "Atualiza os dados do produto", summary = "Atualizar produto")
     @ApiResponses(value = {

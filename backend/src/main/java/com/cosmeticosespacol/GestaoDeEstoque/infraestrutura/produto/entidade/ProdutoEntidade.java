@@ -21,7 +21,7 @@ public class ProdutoEntidade {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private String nome;
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private Categoria categoria;
     private String descricao;
     @Column(precision = 10, scale = 2)
