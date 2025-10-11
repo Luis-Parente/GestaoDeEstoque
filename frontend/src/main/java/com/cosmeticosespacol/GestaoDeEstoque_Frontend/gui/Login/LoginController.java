@@ -1,17 +1,13 @@
 package com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login;
 
 import com.cosmeticosespacol.GestaoDeEstoque_Frontend.Launcher;
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.excecao.ExcecaoHandler;
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.util.LoadView;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 public class LoginController {
 
@@ -31,13 +27,9 @@ public class LoginController {
     private Label labelSenhaError;
 
     @FXML
-    private Label labelLoginError;
-
-    @FXML
     public void onBtnEntrarClick() throws Exception {
         labelEmailError.setVisible(false);
         labelSenhaError.setVisible(false);
-        labelLoginError.setVisible(false);
 
         String email = txtEmail.getText();
         if (email.isEmpty()) {
@@ -54,26 +46,9 @@ public class LoginController {
         boolean sucesso = LoginService.authenticate(email, senha);
 
         if (!sucesso && !email.isEmpty() && !senha.isEmpty()) {
-            labelLoginError.setText("Usuário ou senha incorretos!");
-            labelLoginError.setVisible(true);
+            ExcecaoHandler.showError("Login", "Usuário ou senha incorretos!");
         } else if (sucesso) {
-            loadView("/gui/MainMenu/MainMenu.fxml");
-        }
-    }
-
-    private void loadView(String caminho) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
-            VBox vbox = loader.load();
-
-            Scene scene = Launcher.getScene();
-
-            VBox root = (VBox) scene.getRoot(); // agora bate
-            root.getChildren().clear();
-            root.getChildren().add(vbox);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            LoadView.loadView(Launcher.getScene(), "/gui/MainMenu/MainMenu.fxml");
         }
     }
 }

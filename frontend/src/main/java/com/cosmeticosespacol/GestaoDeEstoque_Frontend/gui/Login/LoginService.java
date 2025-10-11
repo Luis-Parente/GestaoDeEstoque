@@ -1,19 +1,26 @@
 package com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login;
 
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.dto.RequisicaoLogin;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginService {
 
-    private static final String LOGIN_URL="http://localhost:8080/login";
+    private static final String LOGIN_URL = "http://localhost:8080/login";
 
     public static boolean authenticate(String email, String senha) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        // Monta o JSON
-        String json = String.format("{\"email\":\"%s\", \"senha\":\"%s\"}", email, senha);
+        RequisicaoLogin body = new RequisicaoLogin(email, senha);
+
+        String json = objectMapper.writeValueAsString(body);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(LOGIN_URL))

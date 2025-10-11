@@ -9,9 +9,15 @@ module com.espacolcosmeticos.gestaodeestoque_frontend {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+
     requires java.net.http;
     requires javafx.graphics;
+    requires com.fasterxml.jackson.databind;
 
     opens com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login to javafx.fxml;
+
+    opens com.cosmeticosespacol.GestaoDeEstoque_Frontend.dto to com.fasterxml.jackson.databind;
+
     exports com.cosmeticosespacol.GestaoDeEstoque_Frontend;
 }
+

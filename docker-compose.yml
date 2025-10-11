@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: dados
+      POSTGRES_DB: dados_espaco_l
     ports:
       - "5432:5432"
 
@@ -20,9 +20,9 @@ services:
     networks:
       - compose-bridge
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_URL: jdbc:postgresql://database:5432/dados
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_URL: jdbc:postgresql://database:5432/dados_espaco_l
     ports:
       - "8080:8080"
 
