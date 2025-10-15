@@ -1,13 +1,13 @@
 package com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login;
 
 import com.cosmeticosespacol.GestaoDeEstoque_Frontend.dto.RequisicaoLogin;
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.seguranca.GerenciadorTokenAutenticacao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginService {
@@ -29,6 +29,10 @@ public class LoginService {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        Map<String, String> responseMap = objectMapper.readValue(response.body(), Map.class);
+
+        GerenciadorTokenAutenticacao.setToken(responseMap.get("token"));
 
         return response.statusCode() == 200;
     }

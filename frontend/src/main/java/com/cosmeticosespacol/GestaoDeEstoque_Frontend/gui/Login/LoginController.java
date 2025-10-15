@@ -48,7 +48,7 @@ public class LoginController {
         if (!sucesso && !email.isEmpty() && !senha.isEmpty()) {
             ExcecaoHandler.showError("Login", "Usuário ou senha incorretos!");
         } else if (sucesso) {
-            LoadView.loadView(Launcher.getScene(), "/gui/MainMenu/MainMenu.fxml");
+            LoadView.loadView(Launcher.getScene(), "/gui/MainMenu/MainMenu.fxml", x-> {});
         }
     }
 }
