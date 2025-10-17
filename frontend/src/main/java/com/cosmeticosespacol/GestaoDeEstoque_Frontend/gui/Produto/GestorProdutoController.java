@@ -1,6 +1,6 @@
 package com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Produto;
 
-import com.cosmeticosespacol.GestaoDeEstoque_Frontend.dto.ProdutoDTO;
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.dto.RetornoProdutoDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,29 +14,29 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ProdutoController implements Initializable {
+public class GestorProdutoController implements Initializable {
 
     private ProdutoService  produtoService;
 
     @FXML
-    private TableView<ProdutoDTO> tableViewProdutoDto;
+    private TableView<RetornoProdutoDTO> tableViewProdutoDto;
 
     @FXML
-    private TableColumn<ProdutoDTO, String> tableColumnProdutoId;
+    private TableColumn<RetornoProdutoDTO, String> tableColumnProdutoId;
 
     @FXML
-    private TableColumn<ProdutoDTO, String> tableColumnProdutoNome;
+    private TableColumn<RetornoProdutoDTO, String> tableColumnProdutoNome;
 
     @FXML
-    private TableColumn<ProdutoDTO, Integer> tableColumnProdutoQuantidade;
+    private TableColumn<RetornoProdutoDTO, Integer> tableColumnProdutoQuantidade;
 
     @FXML
-    private TableColumn<ProdutoDTO, BigDecimal> tableColumnProdutoPreco;
+    private TableColumn<RetornoProdutoDTO, BigDecimal> tableColumnProdutoPreco;
 
     @FXML
-    private TableColumn<ProdutoDTO, String> tableColumnProdutoCategoria;
+    private TableColumn<RetornoProdutoDTO, String> tableColumnProdutoCategoria;
 
-    private ObservableList<ProdutoDTO> observableListProdutoDto;
+    private ObservableList<RetornoProdutoDTO> observableListRetornoProdutoDto;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,8 +56,8 @@ public class ProdutoController implements Initializable {
     }
 
     public void updateTableView() throws Exception {
-        List<ProdutoDTO> produtos = produtoService.listarTodosProdutos();
-        observableListProdutoDto = FXCollections.observableArrayList(produtos);
-        tableViewProdutoDto.setItems(observableListProdutoDto);
+        List<RetornoProdutoDTO> produtos = produtoService.listarTodosProdutos();
+        observableListRetornoProdutoDto = FXCollections.observableArrayList(produtos);
+        tableViewProdutoDto.setItems(observableListRetornoProdutoDto);
     }
 }

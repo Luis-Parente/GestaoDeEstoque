@@ -16,7 +16,7 @@
         <menus>
           <Menu fx:id="menuProdutos" mnemonicParsing="false" text="Produto">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Cadastrar produto" />
+                  <MenuItem fx:id="cadastrarProduto" mnemonicParsing="false" onAction="#menuItemCadastrarProdutoClick" text="Cadastrar produto" />
                   <MenuItem fx:id="gerenciarProduto" mnemonicParsing="false" onAction="#menuItemGerenciarProdutoClick" text="Gerenciar produtos" />
                </items></Menu>
           <Menu fx:id="menuUsuairos" mnemonicParsing="false" text="Usuario" />

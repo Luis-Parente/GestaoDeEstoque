@@ -1,5 +1,7 @@
 package com.cosmeticosespacol.GestaoDeEstoque_Frontend;
 
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login.LoginController;
+import com.cosmeticosespacol.GestaoDeEstoque_Frontend.gui.Login.LoginService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class Launcher extends Application {
 
@@ -24,10 +25,15 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/gui/Login/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Login/Login.fxml"));
+            Parent parent = loader.load();
+
+            LoginController controller = loader.getController();
+            controller.setLoginService(new LoginService());
             scene = new Scene(parent);
             stage.setScene(scene);
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

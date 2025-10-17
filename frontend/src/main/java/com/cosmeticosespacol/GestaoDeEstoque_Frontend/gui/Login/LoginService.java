@@ -14,7 +14,7 @@ public class LoginService {
 
     private static final String LOGIN_URL = "http://localhost:8080/login";
 
-    public static boolean authenticate(String email, String senha) throws Exception {
+    public boolean authenticate(String email, String senha) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
 

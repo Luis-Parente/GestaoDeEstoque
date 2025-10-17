@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProdutoDTO {
+public class RetornoProdutoDTO {
 
     private String uuid;
     private String nome;
@@ -13,10 +13,10 @@ public class ProdutoDTO {
     private Integer quantidade;
     private BigDecimal preco;
 
-    public ProdutoDTO() {
+    public RetornoProdutoDTO() {
     }
 
-    public ProdutoDTO(String uuid, String nome, String categoria, Integer quantidade, BigDecimal preco) {
+    public RetornoProdutoDTO(String uuid, String nome, String categoria, Integer quantidade, BigDecimal preco) {
         this.uuid = uuid;
         this.nome = nome;
         this.categoria = categoria;

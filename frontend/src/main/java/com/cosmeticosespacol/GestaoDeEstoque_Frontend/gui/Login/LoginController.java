@@ -26,6 +26,12 @@ public class LoginController {
     @FXML
     private Label labelSenhaError;
 
+    private LoginService loginService;
+
+    public void setLoginService(LoginService loginService) {
+        this.loginService = loginService;
+    }
+
     @FXML
     public void onBtnEntrarClick() throws Exception {
         labelEmailError.setVisible(false);
@@ -43,7 +49,7 @@ public class LoginController {
             labelSenhaError.setVisible(true);
         }
 
-        boolean sucesso = LoginService.authenticate(email, senha);
+        boolean sucesso = loginService.authenticate(email, senha);
 
         if (!sucesso && !email.isEmpty() && !senha.isEmpty()) {
             ExcecaoHandler.showError("Login", "Usuário ou senha incorretos!");
