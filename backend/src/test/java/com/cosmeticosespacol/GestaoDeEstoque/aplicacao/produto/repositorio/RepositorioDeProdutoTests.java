@@ -153,4 +153,34 @@ public class RepositorioDeProdutoTests {
         Assertions.assertTrue(resultado.isEmpty());
         Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(anyString(), eq(categoriaInvalida));
     }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando nome e categoria forem válidos")
+    void deveRetornarListaDeProdutosQuandoNomeECategoriaForemValidos() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeValido), eq(categoriaValida))).thenReturn(List.of(produtoTeste));
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados(nomeValido, categoriaValida);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(1, resultado.size());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(eq(nomeValido), eq(categoriaValida));
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos vazia quando nome e categoria forem inválidos")
+    void deveRetornarListaDeProdutosVaziaQuandoNomeECategoriaForemInvalidos() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInvalido), eq(categoriaInvalida))).thenReturn(List.of());
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados(nomeInvalido, categoriaInvalida);
+
+        Assertions.assertTrue(resultado.isEmpty());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(eq(nomeInvalido), eq(categoriaInvalida));
+    }
 }
