@@ -1,5 +1,6 @@
 package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.repositorio;
 
+import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.factory.ProdutoFactory;
 import org.junit.jupiter.api.Assertions;
@@ -11,10 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,8 @@ public class RepositorioDeProdutoTests {
 
     private String nomeValido, nomeInvalido;
 
+    private Categoria categoriaValida, categoriaInvalida;
+
     @BeforeEach
     void setUp() throws Exception {
         produtoTeste = ProdutoFactory.criarProduto();
@@ -38,6 +42,9 @@ public class RepositorioDeProdutoTests {
 
         nomeValido = produtoTeste.getNome();
         nomeInvalido = "Nome inválido";
+
+        categoriaValida = produtoTeste.getCategoria();
+        categoriaInvalida = Categoria.KIT;
     }
 
     @Test
@@ -85,5 +92,65 @@ public class RepositorioDeProdutoTests {
 
         Assertions.assertTrue(resultado.isEmpty());
         Mockito.verify(repositorio, times(1)).buscarProdutoPorUuid(idInvalido);
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando o nome for válido")
+    void deveRetornarListaDeProdutosQuandoNomeForValido() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeValido), isNull())).thenReturn(List.of(produtoTeste));
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados(nomeValido, null);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(1, resultado.size());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(eq(nomeValido), isNull());
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos vazia quando o nome for inválido")
+    void deveRetornarListaDeProdutosVaziaQuandoNomeForInvalido() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInvalido), isNull())).thenReturn(List.of());
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados(nomeInvalido, null);
+
+        Assertions.assertTrue(resultado.isEmpty());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(eq(nomeInvalido), isNull());
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando a categoria for válida")
+    void deveRetornarListaDeProdutosQuandoCategoriaForValido() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(anyString(), eq(categoriaValida))).thenReturn(List.of(produtoTeste));
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados("", categoriaValida);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(1, resultado.size());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(anyString(), eq(categoriaValida));
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos vazia quando a categoria for inválida")
+    void deveRetornarListaDeProdutosVaziaQuandoCategoriaForInvalido() {
+        Mockito.when(repositorio.buscarProdutosFiltrados(anyString(), eq(categoriaInvalida))).thenReturn(List.of());
+
+        List<Produto> resultado = repositorio.buscarProdutosFiltrados("", categoriaInvalida);
+
+        Assertions.assertTrue(resultado.isEmpty());
+        Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(anyString(), eq(categoriaInvalida));
     }
 }
