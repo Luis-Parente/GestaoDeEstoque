@@ -1,4 +1,4 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto;
+package com.cosmeticosespacol.GestaoDeEstoque.api.usuario.dto;
 
 import java.util.UUID;
 

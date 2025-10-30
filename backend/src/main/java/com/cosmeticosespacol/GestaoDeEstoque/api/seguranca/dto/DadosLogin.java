@@ -1,4 +1,4 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.seguranca.dto;
+package com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

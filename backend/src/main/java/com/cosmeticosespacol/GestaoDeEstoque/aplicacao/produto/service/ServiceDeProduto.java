@@ -17,7 +17,6 @@ public class ServiceDeProduto {
 
     private final RepositorioDeProduto repositorio;
 
-    @Autowired
     public ServiceDeProduto(RepositorioDeProduto repositorioDeProduto) {
         this.repositorio = repositorioDeProduto;
     }

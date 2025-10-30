@@ -18,7 +18,6 @@ public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
 
     private final RepositorioDeProdutoJpa repositorio;
 
-    @Autowired
     public RepositorioDeProdutoJpaAdapter(RepositorioDeProdutoJpa repositorio) {
         this.repositorio = repositorio;
     }

@@ -1,4 +1,4 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto;
+package com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto;
 
 import java.math.BigDecimal;
 

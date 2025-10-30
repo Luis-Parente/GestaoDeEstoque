@@ -1,9 +1,9 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.mapper;
+package com.cosmeticosespacol.GestaoDeEstoque.api.usuario.mapper;
 
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.NivelDeAcesso;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosEntradaUsuario;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosRetornoUsuario;
+import com.cosmeticosespacol.GestaoDeEstoque.api.usuario.dto.DadosEntradaUsuario;
+import com.cosmeticosespacol.GestaoDeEstoque.api.usuario.dto.DadosRetornoUsuario;
 
 public class UsuarioMapper {
 

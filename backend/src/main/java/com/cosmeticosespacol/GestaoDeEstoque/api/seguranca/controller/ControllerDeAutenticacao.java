@@ -1,12 +1,10 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.seguranca.controller;
+package com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.controller;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeToken;
-import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.entidade.UsuarioEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.seguranca.dto.DadosLogin;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.seguranca.dto.RetornoLogin;
+import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.DadosLogin;
+import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,7 +31,6 @@ public class ControllerDeAutenticacao {
 
     private final ServiceDeToken serviceDeToken;
 
-    @Autowired
     public ControllerDeAutenticacao(AuthenticationManager authenticationManager, ServiceDeToken serviceDeToken) {
         this.authenticationManager = authenticationManager;
         this.serviceDeToken = serviceDeToken;

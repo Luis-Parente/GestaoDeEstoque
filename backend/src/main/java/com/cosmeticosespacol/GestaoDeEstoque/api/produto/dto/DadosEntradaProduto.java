@@ -1,4 +1,4 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto;
+package com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;

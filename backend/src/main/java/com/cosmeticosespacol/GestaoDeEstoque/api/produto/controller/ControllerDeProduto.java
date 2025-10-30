@@ -1,13 +1,13 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.controller;
+package com.cosmeticosespacol.GestaoDeEstoque.api.produto.controller;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.service.ServiceDeProduto;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.dto.MensagemDeSucesso;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.mapper.ProdutoMapper;
+import com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto.DadosEntradaProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto.DadosRetornoProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.api.dto.MensagemDeSucesso;
+import com.cosmeticosespacol.GestaoDeEstoque.api.produto.mapper.ProdutoMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,7 +32,6 @@ public class ControllerDeProduto {
 
     private final ServiceDeProduto service;
 
-    @Autowired
     public ControllerDeProduto(ServiceDeProduto service) {
         this.service = service;
     }

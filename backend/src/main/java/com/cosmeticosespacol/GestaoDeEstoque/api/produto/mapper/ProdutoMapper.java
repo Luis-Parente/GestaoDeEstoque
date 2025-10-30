@@ -1,9 +1,9 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.mapper;
+package com.cosmeticosespacol.GestaoDeEstoque.api.produto.mapper;
 
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosEntradaProduto;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.produto.dto.DadosRetornoProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto.DadosEntradaProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.api.produto.dto.DadosRetornoProduto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -19,7 +19,6 @@ public class RepositorioDeUsuarioJpaAdapter implements RepositorioDeUsuario, Use
 
     private final RepositorioDeUsuarioJpa repositorio;
 
-    @Autowired
     public RepositorioDeUsuarioJpaAdapter(RepositorioDeUsuarioJpa repositorio) {
         this.repositorio = repositorio;
     }

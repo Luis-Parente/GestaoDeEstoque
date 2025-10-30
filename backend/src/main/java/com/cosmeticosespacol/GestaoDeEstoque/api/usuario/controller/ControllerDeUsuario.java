@@ -1,12 +1,12 @@
-package com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.controller;
+package com.cosmeticosespacol.GestaoDeEstoque.api.usuario.controller;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service.ServiceDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.dto.MensagemDeSucesso;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosEntradaUsuario;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.dto.DadosRetornoUsuario;
-import com.cosmeticosespacol.GestaoDeEstoque.interfaceadapter.usuario.mapper.UsuarioMapper;
+import com.cosmeticosespacol.GestaoDeEstoque.api.dto.MensagemDeSucesso;
+import com.cosmeticosespacol.GestaoDeEstoque.api.usuario.dto.DadosEntradaUsuario;
+import com.cosmeticosespacol.GestaoDeEstoque.api.usuario.dto.DadosRetornoUsuario;
+import com.cosmeticosespacol.GestaoDeEstoque.api.usuario.mapper.UsuarioMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +29,6 @@ public class ControllerDeUsuario {
 
     private final ServiceDeUsuario service;
 
-    @Autowired
     public ControllerDeUsuario(ServiceDeUsuario service) {
         this.service = service;
     }
