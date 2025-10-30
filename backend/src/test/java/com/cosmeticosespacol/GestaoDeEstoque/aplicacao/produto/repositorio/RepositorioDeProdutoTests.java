@@ -31,6 +31,8 @@ public class RepositorioDeProdutoTests {
 
     private String nomeValido, nomeInvalido;
 
+    private String nomeExistente, nomeInexistente;
+
     private Categoria categoriaValida, categoriaInvalida;
 
     @BeforeEach
@@ -42,6 +44,9 @@ public class RepositorioDeProdutoTests {
 
         nomeValido = produtoTeste.getNome();
         nomeInvalido = "Nome inválido";
+
+        nomeExistente = produtoTeste.getNome();
+        nomeInexistente = "Nome não existente";
 
         categoriaValida = produtoTeste.getCategoria();
         categoriaInvalida = Categoria.KIT;
@@ -63,6 +68,28 @@ public class RepositorioDeProdutoTests {
         Assertions.assertEquals(produtoTeste.getQuantidade(), produtoSalvo.getQuantidade());
         Assertions.assertEquals(produtoTeste.getDesconto(), produtoSalvo.getDesconto());
         Mockito.verify(repositorio, times(1)).salvarProduto(produtoTeste);
+    }
+
+    @Test
+    @DisplayName("Deve retornar true quando o nome existe")
+    void deveRetornarTrueQuandoNomeExiste() {
+        Mockito.when(repositorio.validarNome(eq(nomeExistente))).thenReturn(true);
+
+        boolean resultado = repositorio.validarNome(nomeExistente);
+
+        Assertions.assertTrue(resultado);
+        Mockito.verify(repositorio, times(1)).validarNome(eq(nomeExistente));
+    }
+
+    @Test
+    @DisplayName("Deve retornar false quando o nome não existe")
+    void deveRetornarFalseQuandoNomeNaoExiste() {
+        Mockito.when(repositorio.validarNome(eq(nomeInexistente))).thenReturn(false);
+
+        boolean resultado = repositorio.validarNome(nomeInexistente);
+
+        Assertions.assertFalse(resultado);
+        Mockito.verify(repositorio, times(1)).validarNome(eq(nomeInexistente));
     }
 
     @Test
@@ -182,5 +209,15 @@ public class RepositorioDeProdutoTests {
 
         Assertions.assertTrue(resultado.isEmpty());
         Mockito.verify(repositorio, times(1)).buscarProdutosFiltrados(eq(nomeInvalido), eq(categoriaInvalida));
+    }
+
+    @Test
+    @DisplayName("Deve deletar produto com sucesso")
+    void deveDeletarProdutoComSucesso() {
+        Mockito.doNothing().when(repositorio).deletarProdutoPorUuid(idValido);
+
+        repositorio.deletarProdutoPorUuid(idValido);
+
+        Mockito.verify(repositorio, times(1)).deletarProdutoPorUuid(idValido);
     }
 }
