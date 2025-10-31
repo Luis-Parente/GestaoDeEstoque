@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +45,8 @@ public class ServiceDeProdutoTests {
 
     private Integer quantidadeValida, quantidadeInvalida;
 
+    private BigDecimal descontoValido, descontoInvalido;
+
     @BeforeEach
     public void setup() {
         produtoTeste = ProdutoFactory.criarProduto();
@@ -59,6 +62,9 @@ public class ServiceDeProdutoTests {
 
         quantidadeValida = 5;
         quantidadeInvalida = -1;
+
+        descontoValido = BigDecimal.TEN;
+        descontoInvalido = BigDecimal.valueOf(-10.0);
 
         Mockito.when(repositorio.validarNome(eq(nomeInexistente))).thenReturn(false);
         Mockito.when(repositorio.validarNome(eq(nomeExistente))).thenReturn(true);
@@ -240,6 +246,7 @@ public class ServiceDeProdutoTests {
     @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
     void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
         quantidadeInvalida = null;
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeInvalida);
         });
@@ -275,6 +282,17 @@ public class ServiceDeProdutoTests {
     @DisplayName("Deve lançar IllegalArgumentException quando quantidade for maior que o estoque")
     void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMaiorQueEstoque() {
         quantidadeInvalida = produtoTeste.getQuantidade() + 1;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
+        quantidadeInvalida = null;
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
         });
@@ -285,6 +303,34 @@ public class ServiceDeProdutoTests {
     void diminuirQuantidadeDeProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             String resultado = service.diminuirQuantidadeDeProduto(idInexistente, quantidadeValida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve retornar mensagem de sucesso quando id existir e desconto for válido")
+    void adicionarDescontoPorUuidDeveRetornarMensagemSucessoQuandoIdExistirEDescontoValido() {
+        mensagemSucesso = "Desconto atualizado com sucesso";
+
+        String resultado = service.adicionarDescontoPorUuid(idExistente, descontoValido);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando desconto for menor que zero")
+    void adicionarDescontoPorUuidDeveLancarIllegalArgumentExceptionQuandoDescontoMenorQueZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.adicionarDescontoPorUuid(idExistente, descontoInvalido);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    void adicionarDescontoPorUuidDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
+        descontoInvalido = null;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.adicionarDescontoPorUuid(idExistente, descontoInvalido);
         });
     }
 }
