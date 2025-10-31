@@ -85,7 +85,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve cadastrar novo produto se não existir produto com o mesmo nome")
+    @DisplayName("cadastrarNovoProduto deve cadastrar novo produto se não existir produto com o mesmo nome")
     void cadastrarNovoProdutoSeNomeInexistente() {
         Produto resultado = service.cadastrarNovoProduto(produtoTeste);
 
@@ -100,7 +100,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Cadastrar novo produto deve lançar exceção DadoRepetidoExcecao se existir produto com o mesmo nome")
+    @DisplayName("cadastrarNovoProduto deve lançar exceção DadoRepetidoExcecao se existir produto com o mesmo nome")
     void cadastrarNovoProdutoDeveLancarDadoRepetidoExcecaoSeNomeExistente() {
         produtoTeste.setNome(nomeExistente);
 
@@ -110,7 +110,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar produto quando id existir")
+    @DisplayName("filtrarPorUuid deve retornar produto quando id existir")
     void filtrarPorUuidDeveRetornarProdutoQuandoIdExistir() {
         Produto resultado = service.filtrarPorUuid(idExistente);
 
@@ -125,7 +125,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando id não existir")
+    @DisplayName("filtrarPorUuid deve lançar NaoEncontradoExcecao quando id não existir")
     void filtrarPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             Produto resultado = service.filtrarPorUuid(idInexistente);
@@ -133,7 +133,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar lista de produtos quando nome e categoria forem válidos")
+    @DisplayName("retornarProdutosFiltrados deve retornar lista de produtos quando nome e categoria forem válidos")
     void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoNomeECategoriaValidos() {
         List<Produto> resultado = service.retornarProdutosFiltrados(nomeExistente, categoriaExistente);
 
@@ -148,7 +148,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar lista de produtos quando nome for válido")
+    @DisplayName("retornarProdutosFiltrados deve retornar lista de produtos quando nome for válido")
     void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoNomeValido() {
         List<Produto> resultado = service.retornarProdutosFiltrados(nomeExistente, null);
 
@@ -163,7 +163,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar lista de produtos quando categoria for válida")
+    @DisplayName("retornarProdutosFiltrados deve retornar lista de produtos quando categoria for válida")
     void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoCategoriaValida() {
         List<Produto> resultado = service.retornarProdutosFiltrados(null, categoriaExistente);
 
@@ -178,7 +178,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando nome e categoria inválidos")
+    @DisplayName("retornarProdutosFiltrados deve lançar NaoEncontradoExcecao quando nome e categoria inválidos")
     void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoNomeECategoriaInvalidos() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.retornarProdutosFiltrados(nomeInexistente, categoriaInexistente);
@@ -186,7 +186,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando nome inválido")
+    @DisplayName("retornarProdutosFiltrados deve lançar NaoEncontradoExcecao quando nome inválido")
     void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoNomeInvalido() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.retornarProdutosFiltrados(nomeInexistente, null);
@@ -194,7 +194,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando categoria inválida")
+    @DisplayName("retornarProdutosFiltrados deve lançar NaoEncontradoExcecao quando categoria inválida")
     void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoCategoriaInvalida() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.retornarProdutosFiltrados(null, categoriaInexistente);
@@ -202,7 +202,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar produto atualizado quando id existir")
+    @DisplayName("atualizarProduto deve retornar produto atualizado quando id existir")
     void atualizarProdutoDeveRetornarProdutoQuandoIdExistir() {
         Produto resultado = service.atualizarProduto(idExistente, produtoTeste);
 
@@ -217,7 +217,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    @DisplayName("atualizarProduto deve lançar NaoEncontradoExcecao quando id for inexistente")
     void atualizarProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.atualizarProduto(idInexistente, produtoTeste);
@@ -225,7 +225,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar mensagem de sucesso quando id existir e quantidade for válida")
+    @DisplayName("aumentarQuantidadeDeProduto deve retornar mensagem de sucesso quando id existir e quantidade for válida")
     void aumentarQuantidadeDeProdutoDeveRetornarMensagemSucessoQuandoIdExistirEQuantidadeValida() {
         mensagemSucesso = "Estoque atualizado com sucesso";
 
@@ -235,7 +235,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for menor que zero")
+    @DisplayName("aumentarQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for menor que zero")
     void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMenorQueZero() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeInvalida);
@@ -243,7 +243,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    @DisplayName("aumentarQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for null")
     void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
         quantidadeInvalida = null;
 
@@ -253,7 +253,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    @DisplayName("aumentarQuantidadeDeProduto deve lançar NaoEncontradoExcecao quando id for inexistente")
     void aumentarQuantidadeDeProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             String resultado = service.aumentarQuantidadeDeProduto(idInexistente, quantidadeValida);
@@ -261,7 +261,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar mensagem de sucesso quando id existir e quantidade for válida")
+    @DisplayName("diminuirQuantidadeDeProduto deve retornar mensagem de sucesso quando id existir e quantidade for válida")
     void diminuirQuantidadeDeProdutoDeveRetornarMensagemSucessoQuandoIdExistirEQuantidadeValida() {
         mensagemSucesso = "Estoque atualizado com sucesso";
 
@@ -271,7 +271,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for menor que zero")
+    @DisplayName("diminuirQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for menor que zero")
     void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMenorQueZero() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
@@ -279,7 +279,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for maior que o estoque")
+    @DisplayName("diminuirQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for maior que o estoque")
     void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMaiorQueEstoque() {
         quantidadeInvalida = produtoTeste.getQuantidade() + 1;
 
@@ -289,7 +289,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    @DisplayName("diminuirQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for null")
     void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
         quantidadeInvalida = null;
 
@@ -299,7 +299,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    @DisplayName("diminuirQuantidadeDeProduto deve lançar NaoEncontradoExcecao quando id for inexistente")
     void diminuirQuantidadeDeProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             String resultado = service.diminuirQuantidadeDeProduto(idInexistente, quantidadeValida);
@@ -307,7 +307,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve retornar mensagem de sucesso quando id existir e desconto for válido")
+    @DisplayName("adicionarDescontoPorUuid deve retornar mensagem de sucesso quando id existir e desconto for válido")
     void adicionarDescontoPorUuidDeveRetornarMensagemSucessoQuandoIdExistirEDescontoValido() {
         mensagemSucesso = "Desconto atualizado com sucesso";
 
@@ -317,7 +317,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando desconto for menor que zero")
+    @DisplayName("adicionarDescontoPorUuid deve lançar IllegalArgumentException quando desconto for menor que zero")
     void adicionarDescontoPorUuidDeveLancarIllegalArgumentExceptionQuandoDescontoMenorQueZero() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String resultado = service.adicionarDescontoPorUuid(idExistente, descontoInvalido);
@@ -325,7 +325,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    @DisplayName("adicionarDescontoPorUuid deve lançar IllegalArgumentException quando quantidade for null")
     void adicionarDescontoPorUuidDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
         descontoInvalido = null;
 
