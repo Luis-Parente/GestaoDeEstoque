@@ -117,7 +117,7 @@ public class Produto {
     }
 
     public void removerEstoque(Integer quantidade) {
-        if (quantidade == null || quantidade > this.quantidade) {
+        if (quantidade == null || quantidade > this.quantidade || quantidade < 0) {
             throw new IllegalArgumentException("Quantidade inválida!");
         }
         this.quantidade -= quantidade;

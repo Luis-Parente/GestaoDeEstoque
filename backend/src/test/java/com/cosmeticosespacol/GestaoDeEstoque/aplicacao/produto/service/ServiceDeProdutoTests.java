@@ -42,6 +42,8 @@ public class ServiceDeProdutoTests {
 
     private String mensagemSucesso;
 
+    private Integer quantidadeValida, quantidadeInvalida;
+
     @BeforeEach
     public void setup() {
         produtoTeste = ProdutoFactory.criarProduto();
@@ -54,6 +56,9 @@ public class ServiceDeProdutoTests {
 
         categoriaExistente = produtoTeste.getCategoria();
         categoriaInexistente = Categoria.KIT;
+
+        quantidadeValida = 5;
+        quantidadeInvalida = -1;
 
         Mockito.when(repositorio.validarNome(eq(nomeInexistente))).thenReturn(false);
         Mockito.when(repositorio.validarNome(eq(nomeExistente))).thenReturn(true);
@@ -210,6 +215,76 @@ public class ServiceDeProdutoTests {
     void atualizarProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.atualizarProduto(idInexistente, produtoTeste);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve retornar mensagem de sucesso quando id existir e quantidade for válida")
+    void aumentarQuantidadeDeProdutoDeveRetornarMensagemSucessoQuandoIdExistirEQuantidadeValida() {
+        mensagemSucesso = "Estoque atualizado com sucesso";
+
+        String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeValida);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for menor que zero")
+    void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMenorQueZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeInvalida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for null")
+    void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
+        quantidadeInvalida = null;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeInvalida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    void aumentarQuantidadeDeProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            String resultado = service.aumentarQuantidadeDeProduto(idInexistente, quantidadeValida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve retornar mensagem de sucesso quando id existir e quantidade for válida")
+    void diminuirQuantidadeDeProdutoDeveRetornarMensagemSucessoQuandoIdExistirEQuantidadeValida() {
+        mensagemSucesso = "Estoque atualizado com sucesso";
+
+        String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeValida);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for menor que zero")
+    void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMenorQueZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar IllegalArgumentException quando quantidade for maior que o estoque")
+    void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeMaiorQueEstoque() {
+        quantidadeInvalida = produtoTeste.getQuantidade() + 1;
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    void diminuirQuantidadeDeProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            String resultado = service.diminuirQuantidadeDeProduto(idInexistente, quantidadeValida);
         });
     }
 }
