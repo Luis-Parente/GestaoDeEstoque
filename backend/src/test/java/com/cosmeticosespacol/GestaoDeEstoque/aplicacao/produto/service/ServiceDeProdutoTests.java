@@ -40,6 +40,8 @@ public class ServiceDeProdutoTests {
 
     private Categoria categoriaExistente, categoriaInexistente;
 
+    private String mensagemSucesso;
+
     @BeforeEach
     public void setup() {
         produtoTeste = ProdutoFactory.criarProduto();
@@ -185,6 +187,29 @@ public class ServiceDeProdutoTests {
     void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoCategoriaInvalida() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             service.retornarProdutosFiltrados(null, categoriaInexistente);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve retornar produto atualizado quando id existir")
+    void atualizarProdutoDeveRetornarProdutoQuandoIdExistir() {
+        Produto resultado = service.atualizarProduto(idExistente, produtoTeste);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(produtoTeste.getUuid(), resultado.getUuid());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getDesconto());
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando id for inexistente")
+    void atualizarProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInexistente() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.atualizarProduto(idInexistente, produtoTeste);
         });
     }
 }
