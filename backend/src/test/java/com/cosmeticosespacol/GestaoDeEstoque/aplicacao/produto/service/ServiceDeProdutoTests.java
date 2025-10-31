@@ -1,6 +1,7 @@
 package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.service;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.produto.repositorio.RepositorioDeProduto;
+import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.DadoRepetidoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,6 +38,8 @@ public class ServiceDeProdutoTests {
 
     private UUID idExistente, idInexistente;
 
+    private Categoria categoriaExistente, categoriaInexistente;
+
     @BeforeEach
     public void setup() {
         produtoTeste = ProdutoFactory.criarProduto();
@@ -46,6 +50,9 @@ public class ServiceDeProdutoTests {
         idExistente = produtoTeste.getUuid();
         idInexistente = UUID.randomUUID();
 
+        categoriaExistente = produtoTeste.getCategoria();
+        categoriaInexistente = Categoria.KIT;
+
         Mockito.when(repositorio.validarNome(eq(nomeInexistente))).thenReturn(false);
         Mockito.when(repositorio.validarNome(eq(nomeExistente))).thenReturn(true);
 
@@ -53,6 +60,15 @@ public class ServiceDeProdutoTests {
 
         Mockito.when(repositorio.buscarProdutoPorUuid(eq(idExistente))).thenReturn(Optional.of(produtoTeste));
         Mockito.when(repositorio.buscarProdutoPorUuid(eq(idInexistente))).thenReturn(Optional.empty());
+
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeExistente), eq(categoriaExistente))).thenReturn(List.of(produtoTeste));
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeExistente), eq(null))).thenReturn(List.of(produtoTeste));
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(null), eq(categoriaExistente))).thenReturn(List.of(produtoTeste));
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(null), eq(null))).thenReturn(List.of(produtoTeste));
+
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInexistente), eq(categoriaInexistente))).thenReturn(List.of());
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInexistente), eq(null))).thenReturn(List.of());
+        Mockito.when(repositorio.buscarProdutosFiltrados(eq(null), eq(categoriaInexistente))).thenReturn(List.of());
     }
 
     @Test
@@ -100,6 +116,75 @@ public class ServiceDeProdutoTests {
     void filtrarPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             Produto resultado = service.filtrarPorUuid(idInexistente);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando nome e categoria forem válidos")
+    void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoNomeECategoriaValidos() {
+        List<Produto> resultado = service.retornarProdutosFiltrados(nomeExistente, categoriaExistente);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(produtoTeste.getUuid(), resultado.getFirst().getUuid());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando nome for válido")
+    void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoNomeValido() {
+        List<Produto> resultado = service.retornarProdutosFiltrados(nomeExistente, null);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(produtoTeste.getUuid(), resultado.getFirst().getUuid());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de produtos quando categoria for válida")
+    void retornarProdutosFiltradosDeveRetornarListaDeProdutosQuandoCategoriaValida() {
+        List<Produto> resultado = service.retornarProdutosFiltrados(null, categoriaExistente);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(produtoTeste.getUuid(), resultado.getFirst().getUuid());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getFirst().getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getFirst().getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getFirst().getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getFirst().getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getFirst().getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getFirst().getDesconto());
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando nome e categoria inválidos")
+    void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoNomeECategoriaInvalidos() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.retornarProdutosFiltrados(nomeInexistente, categoriaInexistente);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando nome inválido")
+    void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoNomeInvalido() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.retornarProdutosFiltrados(nomeInexistente, null);
+        });
+    }
+
+    @Test
+    @DisplayName("Deve lançar NaoEncontradoExcecao quando categoria inválida")
+    void retornarProdutosFiltradosDeveLancarNaoEncontradoExcecaoQuandoCategoriaInvalida() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.retornarProdutosFiltrados(null, categoriaInexistente);
         });
     }
 }

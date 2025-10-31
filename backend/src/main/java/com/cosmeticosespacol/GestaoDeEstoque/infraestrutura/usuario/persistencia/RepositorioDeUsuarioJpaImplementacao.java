@@ -4,7 +4,6 @@ import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.Repos
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.entidade.UsuarioEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,11 +14,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RepositorioDeUsuarioJpaAdapter implements RepositorioDeUsuario, UserDetailsService {
+public class RepositorioDeUsuarioJpaImplementacao implements RepositorioDeUsuario, UserDetailsService {
 
     private final RepositorioDeUsuarioJpa repositorio;
 
-    public RepositorioDeUsuarioJpaAdapter(RepositorioDeUsuarioJpa repositorio) {
+    public RepositorioDeUsuarioJpaImplementacao(RepositorioDeUsuarioJpa repositorio) {
         this.repositorio = repositorio;
     }
 

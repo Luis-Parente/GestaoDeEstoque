@@ -5,7 +5,6 @@ import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Categoria;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.produto.Produto;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.entidade.ProdutoEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.produto.mapper.ProdutoJpaMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RepositorioDeProdutoJpaAdapter implements RepositorioDeProduto {
+public class RepositorioDeProdutoJpaImplementacao implements RepositorioDeProduto {
 
     private final RepositorioDeProdutoJpa repositorio;
 
-    public RepositorioDeProdutoJpaAdapter(RepositorioDeProdutoJpa repositorio) {
+    public RepositorioDeProdutoJpaImplementacao(RepositorioDeProdutoJpa repositorio) {
         this.repositorio = repositorio;
     }
 
