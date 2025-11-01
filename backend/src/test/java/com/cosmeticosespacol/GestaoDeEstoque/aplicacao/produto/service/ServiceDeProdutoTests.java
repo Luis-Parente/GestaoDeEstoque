@@ -361,7 +361,7 @@ public class ServiceDeProdutoTests {
     }
 
     @Test
-    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando desconto for válidos")
+    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando desconto for válido")
     void adicionarDescontoFiltradoDeveRetornarMensagemDeSucessoQuandoDescontoValidod() {
         mensagemSucesso = "Desconto atualizado com sucesso";
 
@@ -407,6 +407,22 @@ public class ServiceDeProdutoTests {
     void adicionarDescontoFiltradoDeveLancarIllegalArgumentExceptionQuandoDescontoNull() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             service.adicionarDescontoFiltrado(nomeExistente, categoriaExistente, null);
+        });
+    }
+
+    @Test
+    @DisplayName("deletarProdutoPorUuid deve fazer nada quando id for válido")
+    void deletarProdutoPorUuidDeveFazerNadaQuandoIdValido() {
+        Assertions.assertDoesNotThrow(() -> {
+            service.deletarProdutoPorUuid(idExistente);
+        });
+    }
+
+    @Test
+    @DisplayName("deletarProdutoPorUuid deve lancar NaoEncontradoExcecao quando id for inválido")
+    void deletarProdutoPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdInvalido() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.deletarProdutoPorUuid(idInexistente);
         });
     }
 }
