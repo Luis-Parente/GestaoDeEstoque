@@ -82,6 +82,8 @@ public class ServiceDeProdutoTests {
         Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInexistente), eq(categoriaInexistente))).thenReturn(List.of());
         Mockito.when(repositorio.buscarProdutosFiltrados(eq(nomeInexistente), eq(null))).thenReturn(List.of());
         Mockito.when(repositorio.buscarProdutosFiltrados(eq(null), eq(categoriaInexistente))).thenReturn(List.of());
+
+        Mockito.doNothing().when(repositorio).deletarProdutoPorUuid(eq(idExistente));
     }
 
     @Test
@@ -245,10 +247,8 @@ public class ServiceDeProdutoTests {
     @Test
     @DisplayName("aumentarQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for null")
     void aumentarQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
-        quantidadeInvalida = null;
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            String resultado = service.aumentarQuantidadeDeProduto(idExistente, quantidadeInvalida);
+            String resultado = service.aumentarQuantidadeDeProduto(idExistente, null);
         });
     }
 
@@ -291,10 +291,8 @@ public class ServiceDeProdutoTests {
     @Test
     @DisplayName("diminuirQuantidadeDeProduto deve lançar IllegalArgumentException quando quantidade for null")
     void diminuirQuantidadeDeProdutoDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
-        quantidadeInvalida = null;
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            String resultado = service.diminuirQuantidadeDeProduto(idExistente, quantidadeInvalida);
+            String resultado = service.diminuirQuantidadeDeProduto(idExistente, null);
         });
     }
 
@@ -327,10 +325,88 @@ public class ServiceDeProdutoTests {
     @Test
     @DisplayName("adicionarDescontoPorUuid deve lançar IllegalArgumentException quando quantidade for null")
     void adicionarDescontoPorUuidDeveLancarIllegalArgumentExceptionQuandoQuantidadeNull() {
-        descontoInvalido = null;
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            String resultado = service.adicionarDescontoPorUuid(idExistente, descontoInvalido);
+            String resultado = service.adicionarDescontoPorUuid(idExistente, null);
+        });
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando nome, categoria e desconto forem válidos")
+    void adicionarDescontoFiltradoDeveRetornarMensagemDeSucessoQuandoNomeECategoriaEDescontoValidos() {
+        mensagemSucesso = "Desconto atualizado com sucesso";
+
+        String resultado = service.adicionarDescontoFiltrado(nomeExistente, categoriaExistente, descontoValido);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando nome e desconto forem válidos")
+    void adicionarDescontoFiltradoDeveRetornarMensagemDeSucessoQuandoNomeEDescontoValidos() {
+        mensagemSucesso = "Desconto atualizado com sucesso";
+
+        String resultado = service.adicionarDescontoFiltrado(nomeExistente, null, descontoValido);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando categoria e desconto forem válidos")
+    void adicionarDescontoFiltradoDeveRetornarMensagemDeSucessoQuandoCategoriaEDescontoValidos() {
+        mensagemSucesso = "Desconto atualizado com sucesso";
+
+        String resultado = service.adicionarDescontoFiltrado(null, categoriaExistente, descontoValido);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve retornar mensagem de sucesso quando desconto for válidos")
+    void adicionarDescontoFiltradoDeveRetornarMensagemDeSucessoQuandoDescontoValidod() {
+        mensagemSucesso = "Desconto atualizado com sucesso";
+
+        String resultado = service.adicionarDescontoFiltrado(null, null, descontoValido);
+
+        Assertions.assertEquals(mensagemSucesso, resultado);
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve lançar NaoEncontradoExcecao quando nome e categoria inválidos")
+    void adicionarDescontoFiltradoDeveLancarNaoEncontradoExcecaoQuandoNomeECategoriaInvalidos() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.adicionarDescontoFiltrado(nomeInexistente, categoriaInexistente, descontoValido);
+        });
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve lançar NaoEncontradoExcecao quando nome inválido")
+    void adicionarDescontoFiltradoDeveLancarNaoEncontradoExcecaoQuandoNomeInvalido() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.adicionarDescontoFiltrado(nomeInexistente, null, descontoValido);
+        });
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve lançar NaoEncontradoExcecao quando categoria inválida")
+    void adicionarDescontoFiltradoDeveLancarNaoEncontradoExcecaoQuandoCategoriaInvalida() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.adicionarDescontoFiltrado(null, categoriaInexistente, descontoValido);
+        });
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve lançar IllegalArgumentException quando desconto for menor que zero")
+    void adicionarDescontoFiltradoDeveLancarIllegalArgumentExceptionQuandoDescontoMenorQueZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            service.adicionarDescontoFiltrado(nomeExistente, categoriaExistente, descontoInvalido);
+        });
+    }
+
+    @Test
+    @DisplayName("adicionarDescontoFiltrado deve lançar IllegalArgumentException quando desconto for null")
+    void adicionarDescontoFiltradoDeveLancarIllegalArgumentExceptionQuandoDescontoNull() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            service.adicionarDescontoFiltrado(nomeExistente, categoriaExistente, null);
         });
     }
 }
