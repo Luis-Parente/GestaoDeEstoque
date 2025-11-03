@@ -3,6 +3,7 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.RepositorioDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.DadoRepetidoExcecao;
+import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.factory.UsuarioFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -59,6 +61,9 @@ public class ServiceDeUsuarioTests {
         Mockito.when(repositorio.validarEmail(eq(emailExistente))).thenReturn(true);
 
         Mockito.when(passwordEncoder.encode(any(String.class))).thenReturn(senhaCriptografada);
+
+        Mockito.when(repositorio.buscarUsuarioPorUuid(eq(idExistente))).thenReturn(Optional.of(usuarioTeste));
+        Mockito.when(repositorio.buscarUsuarioPorUuid(eq(idInexistente))).thenReturn(Optional.empty());
     }
 
     @DisplayName("cadastrarNovoUsuario deve retornar usuário quando e-mail não existir")
@@ -80,6 +85,26 @@ public class ServiceDeUsuarioTests {
 
         Assertions.assertThrows(DadoRepetidoExcecao.class, () -> {
             Usuario resultado = service.cadastrarNovoUsuario(usuarioTeste);
+        });
+    }
+
+    @DisplayName("filtrarPorUuid deve retornar usuário quando o id existir")
+    @Test
+    void filtrarPorUuidDeveRetornarUsuarioQuandoIdExistir() {
+        Usuario resultado = service.filtrarPorUuid(idExistente);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(usuarioTeste.getNome(), resultado.getNome());
+        Assertions.assertEquals(usuarioTeste.getEmail(), resultado.getEmail());
+        Assertions.assertEquals(usuarioTeste.getSenha(), resultado.getSenha());
+        Assertions.assertEquals(usuarioTeste.getNivelDeAcesso(), resultado.getNivelDeAcesso());
+    }
+
+    @DisplayName("filtrarPorUuid deve lançar NaoEncontradoExcecao quando id não existir")
+    @Test
+    void filtrarPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            Usuario resultado = service.filtrarPorUuid(idInexistente);
         });
     }
 }
