@@ -425,4 +425,27 @@ public class ServiceDeProdutoTests {
             service.deletarProdutoPorUuid(idInexistente);
         });
     }
+
+    @Test
+    @DisplayName("atualizarProduto deve retornar produto atualizado quando id for válido")
+    void atualizarProdutoDeveRetornarProdutoAtualizadoQuandoIdValido() {
+        Produto resultado = service.atualizarProduto(idExistente, produtoTeste);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(produtoTeste.getUuid(), resultado.getUuid());
+        Assertions.assertEquals(produtoTeste.getNome(), resultado.getNome());
+        Assertions.assertEquals(produtoTeste.getDescricao(), resultado.getDescricao());
+        Assertions.assertEquals(produtoTeste.getPreco(), resultado.getPreco());
+        Assertions.assertEquals(produtoTeste.getPrecoComDesconto(), resultado.getPrecoComDesconto());
+        Assertions.assertEquals(produtoTeste.getQuantidade(), resultado.getQuantidade());
+        Assertions.assertEquals(produtoTeste.getDesconto(), resultado.getDesconto());
+    }
+
+    @Test
+    @DisplayName("atualizarProduto deve lançar quando NaoEncontradoExcecao id for inválido")
+    void atualizarProdutoDeveLancarNaoEncontradoExcecaoQuandoIdInvalido() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            service.atualizarProduto(idInexistente, produtoTeste);
+        });
+    }
 }
