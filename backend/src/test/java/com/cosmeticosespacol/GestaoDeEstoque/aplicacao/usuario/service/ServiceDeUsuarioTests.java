@@ -44,7 +44,6 @@ public class ServiceDeUsuarioTests {
 
     @BeforeEach
     void setUp() {
-
         usuarioTeste = UsuarioFactory.criarUsuario();
 
         idExistente = usuarioTeste.getUuid();
@@ -64,6 +63,9 @@ public class ServiceDeUsuarioTests {
 
         Mockito.when(repositorio.buscarUsuarioPorUuid(eq(idExistente))).thenReturn(Optional.of(usuarioTeste));
         Mockito.when(repositorio.buscarUsuarioPorUuid(eq(idInexistente))).thenReturn(Optional.empty());
+
+        Mockito.when(repositorio.buscarUsuarioPorEmail(eq(emailExistente))).thenReturn(Optional.of(usuarioTeste));
+        Mockito.when(repositorio.buscarUsuarioPorEmail(eq(emailInexistente))).thenReturn(Optional.empty());
     }
 
     @DisplayName("cadastrarNovoUsuario deve retornar usuário quando e-mail não existir")
@@ -105,6 +107,26 @@ public class ServiceDeUsuarioTests {
     void filtrarPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             Usuario resultado = service.filtrarPorUuid(idInexistente);
+        });
+    }
+
+    @DisplayName("filtrarPorEmail deve retornar usuário quando o e-mail existir")
+    @Test
+    void filtrarPorEmailDeveRetornarUsuarioQuandoEmailExistir() {
+        Usuario resultado = service.filtrarPorEmail(emailExistente);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(usuarioTeste.getNome(), resultado.getNome());
+        Assertions.assertEquals(usuarioTeste.getEmail(), resultado.getEmail());
+        Assertions.assertEquals(usuarioTeste.getSenha(), resultado.getSenha());
+        Assertions.assertEquals(usuarioTeste.getNivelDeAcesso(), resultado.getNivelDeAcesso());
+    }
+
+    @DisplayName("filtrarPorEmail deve lançar NaoEncontradoExcecao quando e-mail não existir")
+    @Test
+    void filtrarPorEmailDeveLancarNaoEncontradoExcecaoQuandoEmailNaoExistir() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            Usuario resultado = service.filtrarPorEmail(emailInexistente);
         });
     }
 }
