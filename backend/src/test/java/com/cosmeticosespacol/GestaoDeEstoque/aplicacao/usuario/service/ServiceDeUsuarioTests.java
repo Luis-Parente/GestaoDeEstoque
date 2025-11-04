@@ -129,4 +129,24 @@ public class ServiceDeUsuarioTests {
             Usuario resultado = service.filtrarPorEmail(emailInexistente);
         });
     }
+
+    @DisplayName("atualizarUsuario deve retornar usuário quando id existir")
+    @Test
+    void atualizarUsuarioDeveRetornarUsuarioQuandoIdExistir() {
+        Usuario resultado = service.atualizarUsuario(idExistente, usuarioTeste);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(usuarioTeste.getNome(), resultado.getNome());
+        Assertions.assertEquals(usuarioTeste.getEmail(), resultado.getEmail());
+        Assertions.assertEquals(senhaCriptografada, resultado.getSenha());
+        Assertions.assertEquals(usuarioTeste.getNivelDeAcesso(), resultado.getNivelDeAcesso());
+    }
+
+    @DisplayName("atualizarUsuario deve lançar NaoEncontradoExcecao quando id não existir")
+    @Test
+    void atualizarUsuarioDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            Usuario resultado = service.atualizarUsuario(idInexistente, usuarioTeste);
+        });
+    }
 }
