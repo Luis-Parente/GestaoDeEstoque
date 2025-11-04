@@ -42,6 +42,8 @@ public class ServiceDeUsuarioTests {
 
     private String senhaCriptografada;
 
+    private String mensagemDeSucesso;
+
     @BeforeEach
     void setUp() {
         usuarioTeste = UsuarioFactory.criarUsuario();
@@ -53,6 +55,8 @@ public class ServiceDeUsuarioTests {
         emailExistente = "emailtesteexistente@gmail.com";
 
         senhaCriptografada = "Senha criptografada";
+
+        mensagemDeSucesso = "Usuário deletado com sucesso!";
 
         Mockito.when(repositorio.salvarUsuario(any(Usuario.class))).thenReturn(usuarioTeste);
 
@@ -66,6 +70,8 @@ public class ServiceDeUsuarioTests {
 
         Mockito.when(repositorio.buscarUsuarioPorEmail(eq(emailExistente))).thenReturn(Optional.of(usuarioTeste));
         Mockito.when(repositorio.buscarUsuarioPorEmail(eq(emailInexistente))).thenReturn(Optional.empty());
+
+        Mockito.doNothing().when(repositorio).deletarUsuarioPorUuid(eq(idExistente));
     }
 
     @DisplayName("cadastrarNovoUsuario deve retornar usuário quando e-mail não existir")
@@ -147,6 +153,23 @@ public class ServiceDeUsuarioTests {
     void atualizarUsuarioDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
         Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
             Usuario resultado = service.atualizarUsuario(idInexistente, usuarioTeste);
+        });
+    }
+
+    @DisplayName("deletarUsuarioPorUuid deve retornar Mensagem de sucesso quando id existir")
+    @Test
+    void deletarUsuarioPorUuidDeveRetornarMensagemDeSucessoQuandoIdExistir() {
+        String resultado = service.deletarUsuarioPorUuid(idExistente);
+
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(mensagemDeSucesso, resultado);
+    }
+
+    @DisplayName("deletarUsuarioPorUuid deve lançar NaoEncontradoExcecao quando id não existir")
+    @Test
+    void deletarUsuarioPorUuidDeveLancarNaoEncontradoExcecaoQuandoIdNaoExistir() {
+        Assertions.assertThrows(NaoEncontradoExcecao.class, () -> {
+            String resultado = service.deletarUsuarioPorUuid(idInexistente);
         });
     }
 }
