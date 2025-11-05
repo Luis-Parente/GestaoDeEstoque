@@ -20,6 +20,7 @@ services:
     networks:
       - compose-bridge
     environment:
+      SPRING_PROFILES_ACTIVE: dev
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_URL: jdbc:postgresql://database:5432/dados_espaco_l

@@ -1,6 +1,5 @@
 package com.cosmeticosespacol.GestaoDeEstoque.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +16,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
 
-    @Autowired
     public SecurityConfig(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
+    }
+
+    @Bean
+    @Profile("test")
+    public SecurityFilterChain h2SecurityFilterChain(HttpSecurity http) throws Exception {
+        http.securityMatcher(PathRequest.toH2Console()).csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
+        return http.build();
     }
 
     @Bean
