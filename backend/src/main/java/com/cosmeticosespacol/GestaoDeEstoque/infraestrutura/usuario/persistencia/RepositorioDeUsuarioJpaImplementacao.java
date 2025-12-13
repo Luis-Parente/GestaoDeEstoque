@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class RepositorioDeUsuarioJpaImplementacao implements RepositorioDeUsuario, UserDetailsService {
+public class RepositorioDeUsuarioJpaImplementacao implements RepositorioDeUsuario {
 
     private final RepositorioDeUsuarioJpa repositorio;
 
@@ -51,11 +51,5 @@ public class RepositorioDeUsuarioJpaImplementacao implements RepositorioDeUsuari
     @Override
     public void deletarUsuarioPorUuid(UUID uuid) {
         repositorio.deleteById(uuid);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return UsuarioJpaMapper.paraEntidade(buscarUsuarioPorEmail(username).get());
     }
 }

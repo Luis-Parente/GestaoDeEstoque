@@ -1,13 +1,11 @@
 package com.cosmeticosespacol.GestaoDeEstoque.config;
 
+import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeAutenticacao;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeToken;
-import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.service.ServiceDeUsuario;
-import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,14 +19,13 @@ import java.util.List;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
+    private final ServiceDeAutenticacao serviceDeAutenticacao;
+
     private final ServiceDeToken serviceDeToken;
 
-    private final ServiceDeUsuario serviceDeUsuario;
-
-    @Autowired
-    public SecurityFilter(ServiceDeToken serviceDeToken, ServiceDeUsuario serviceDeUsuario) {
+    public SecurityFilter(ServiceDeAutenticacao serviceDeAutenticacao, ServiceDeToken serviceDeToken) {
+        this.serviceDeAutenticacao = serviceDeAutenticacao;
         this.serviceDeToken = serviceDeToken;
-        this.serviceDeUsuario = serviceDeUsuario;
     }
 
     @Override
@@ -40,7 +37,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             String email = decodedJWT.getSubject();
             String role = decodedJWT.getClaim("role").asString();
 
-            UserDetails user = UsuarioJpaMapper.paraEntidade(serviceDeUsuario.filtrarPorEmail(email));
+            UserDetails user = serviceDeAutenticacao.loadUserByUsername(email);
 
             var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 

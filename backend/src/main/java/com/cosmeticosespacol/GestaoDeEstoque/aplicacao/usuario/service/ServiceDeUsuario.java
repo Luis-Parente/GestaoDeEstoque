@@ -4,7 +4,6 @@ import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.Repos
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.DadoRepetidoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

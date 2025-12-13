@@ -1,10 +1,10 @@
 package com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.controller;
 
+import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.DadosLogin;
+import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoLogin;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeToken;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.entidade.UsuarioEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
-import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.DadosLogin;
-import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
