@@ -1,0 +1,17 @@
+<section class="login-container">
+  <form class="login-form" (ngSubmit)="submeterLogin()" ngNativeValidate>
+    <label class="login=label">
+      E-mail
+      <input [(ngModel)]="loginForm.email" class="login-input" type="text" name="email">
+    </label>
+
+    <label class="login=label">
+      Senha
+      <input [(ngModel)]="loginForm.senha" class="login-input" type="password" name="senha">
+    </label>
+
+    <button class="login-botao" type="submit">
+      Entrar
+    </button>
+  </form>
+</section>
