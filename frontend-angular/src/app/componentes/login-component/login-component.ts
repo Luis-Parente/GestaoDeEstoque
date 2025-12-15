@@ -1,20 +1,21 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../services/login-service';
+import {AutorizacaoService} from '../../services/autorizacao-service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LoginModel} from '../../model/login-model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-component',
   imports: [
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.css',
 })
 export class LoginComponent {
 
-  constructor(private service: LoginService) {
+  constructor(private service: AutorizacaoService, private router: Router) {
   }
 
   loginForm = {
@@ -22,11 +23,21 @@ export class LoginComponent {
     senha: ''
   }
 
-  async submeterLogin() {
+  submeterLogin() {
     const dadosLogin: LoginModel = new LoginModel(this.loginForm.email, this.loginForm.senha)
 
-    const resposta = await this.service.realizarLogin(dadosLogin);
+    this.service.realizarLogin(dadosLogin).subscribe({
+      next: (resposta: any) => {
+        sessionStorage.setItem('token', JSON.stringify(resposta.token));
+        this.router.navigate(['/home'])
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
 
-    console.log(resposta);
+  navegar() {
+    this.router.navigate(['/home']);
   }
 }

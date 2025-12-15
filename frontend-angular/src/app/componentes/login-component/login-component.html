@@ -2,12 +2,12 @@
   <form class="login-form" (ngSubmit)="submeterLogin()" ngNativeValidate>
     <label class="login=label">
       E-mail
-      <input [(ngModel)]="loginForm.email" class="login-input" type="text" name="email">
+      <input [(ngModel)]="loginForm.email" class="login-input" type="text" name="email" required>
     </label>
 
     <label class="login=label">
       Senha
-      <input [(ngModel)]="loginForm.senha" class="login-input" type="password" name="senha">
+      <input [(ngModel)]="loginForm.senha" class="login-input" type="password" name="senha" required>
     </label>
 
     <button class="login-botao" type="submit">

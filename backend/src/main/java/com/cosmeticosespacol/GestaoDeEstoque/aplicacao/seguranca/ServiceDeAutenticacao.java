@@ -2,8 +2,8 @@ package com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca;
 
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.usuario.repositorio.RepositorioDeUsuario;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
-import com.cosmeticosespacol.GestaoDeEstoque.excecao.NaoEncontradoExcecao;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,7 @@ public class ServiceDeAutenticacao implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario dominio = repositorio.buscarUsuarioPorEmail(username).orElseThrow(() -> new NaoEncontradoExcecao("Usuário não encontrado!"));
+        Usuario dominio = repositorio.buscarUsuarioPorEmail(username).orElseThrow(() -> new BadCredentialsException("Bad credentials"));
         return UsuarioJpaMapper.paraEntidade(dominio);
     }
 }

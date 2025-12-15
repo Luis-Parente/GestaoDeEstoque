@@ -3,6 +3,7 @@ package com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.controller;
 import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.DadosLogin;
 import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoLogin;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeToken;
+import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.entidade.UsuarioEntidade;
 import com.cosmeticosespacol.GestaoDeEstoque.infraestrutura.usuario.mapper.UsuarioJpaMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +39,7 @@ public class ControllerDeAutenticacao {
     @Operation(description = "Realiza login do usuário", summary = "Login")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso", content = @Content(schema = @Schema(implementation = RetornoLogin.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)})
+            @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),})
     @PostMapping(produces = "application/json")
     public ResponseEntity<RetornoLogin> login(@RequestBody @Valid DadosLogin dto) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(dto.email(),
