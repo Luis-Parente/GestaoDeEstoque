@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('reset.css');
+
+:root {
+  --fonte-principal: "Montserrat", sans-serif;
+  --background-principal: #FFF8DE;
+  --background-secundario: #FFF2C6;
+  --tamanho-texto-principal: 22px;
+  --tamanho-texto-secundario: 16px;
+}
+
+html, body {
+  font-family: var(--fonte-principal), serif;
+  background-color: var(--background-principal);
+}

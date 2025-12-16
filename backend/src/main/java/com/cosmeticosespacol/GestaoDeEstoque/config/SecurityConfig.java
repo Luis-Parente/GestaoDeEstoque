@@ -41,7 +41,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/login").permitAll();
+            auth.requestMatchers("/auth/login").permitAll();
             auth.requestMatchers("/usuario/**").hasRole("ADMINISTRADOR");
             auth.requestMatchers(HttpMethod.POST, "/produto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");
             auth.requestMatchers(HttpMethod.PUT, "/produto/**").hasAnyRole("ADMINISTRADOR", "GERENTE");

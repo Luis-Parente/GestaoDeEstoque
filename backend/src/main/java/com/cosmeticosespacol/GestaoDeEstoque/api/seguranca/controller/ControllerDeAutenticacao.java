@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/auth")
 @Tag(name = "Autenticação", description = "Controller para autenticação")
 public class ControllerDeAutenticacao {
 
@@ -40,7 +40,7 @@ public class ControllerDeAutenticacao {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login realizado com sucesso", content = @Content(schema = @Schema(implementation = RetornoLogin.class))),
             @ApiResponse(responseCode = "401", description = "Não autorizado", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),})
-    @PostMapping(produces = "application/json")
+    @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<RetornoLogin> login(@RequestBody @Valid DadosLogin dto) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(dto.email(),
                 dto.senha());
