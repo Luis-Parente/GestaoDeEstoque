@@ -1,0 +1,8 @@
+footer{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background: var(--background-secundario);
+  padding: 20px;
+  margin-top: auto;
+}
