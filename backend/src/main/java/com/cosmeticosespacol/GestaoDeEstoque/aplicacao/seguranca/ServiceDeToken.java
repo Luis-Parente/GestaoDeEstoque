@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoTokenValidado;
 import com.cosmeticosespacol.GestaoDeEstoque.dominio.usuario.Usuario;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.TokenExcecao;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class ServiceDeToken {
@@ -34,10 +36,12 @@ public class ServiceDeToken {
         }
     }
 
-    public String validarToken(String token) {
+    public RetornoTokenValidado validarToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm).withIssuer("token-generator").build().verify(token).getSubject();
+            String subject = JWT.require(algorithm).withIssuer("token-generator").build().verify(token).getSubject();
+            Date exp = JWT.require(algorithm).withIssuer("token-generator").build().verify(token).getExpiresAt();
+            return new RetornoTokenValidado(subject, exp);
         } catch (JWTVerificationException e) {
             throw new TokenExcecao("Erro validando token!");
         }

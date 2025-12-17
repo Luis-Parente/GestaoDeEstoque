@@ -28,7 +28,7 @@ export class LoginComponent {
 
     this.service.realizarLogin(dadosLogin).subscribe({
       next: (resposta: any) => {
-        sessionStorage.setItem('token', JSON.stringify(resposta.token));
+        this.service.setToken(resposta.token);
         this.router.navigate(['/home'])
       },
       error: err => {
@@ -37,7 +37,8 @@ export class LoginComponent {
     })
   }
 
-  navegar() {
-    this.router.navigate(['/home']);
+  limparLoginForm() {
+    this.loginForm.email = '';
+    this.loginForm.senha = '';
   }
 }

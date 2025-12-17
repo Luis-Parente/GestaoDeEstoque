@@ -1,0 +1,28 @@
+import {CanActivate, Router} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {AutorizacaoService} from '../services/autorizacao-service';
+import {map, Observable, take} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class AuthGuard implements CanActivate {
+
+  constructor(private service: AutorizacaoService, private router: Router) {
+  }
+
+  canActivate(): Observable<boolean> {
+    return this.service.validarToken().pipe(
+      take(1),
+      map(isValid => {
+        if (!isValid) {
+          this.router.navigate(['']);
+          return false;
+        }
+        return true;
+      })
+    );
+  }
+
+}
