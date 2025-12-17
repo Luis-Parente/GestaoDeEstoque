@@ -3,6 +3,7 @@ import {LoginModel} from '../model/login-model';
 import {HttpClient} from '@angular/common/http';
 import {TokenDecodificado} from '../model/token-decodificado';
 import {catchError, map, Observable, of} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,6 @@ export class AutorizacaoService {
 
   constructor(private http: HttpClient) {
   }
-
-  private API_URL: string = "http://localhost:8080/auth";
 
   getToken() {
     return sessionStorage.getItem("token");
@@ -23,7 +22,7 @@ export class AutorizacaoService {
   }
 
   realizarLogin(dadosLogin: LoginModel) {
-    return this.http.post(`${this.API_URL}/login`, dadosLogin);
+    return this.http.post(`${environment.API_URL}/auth/login`, dadosLogin);
   }
 
   realizarLogout() {
@@ -37,7 +36,7 @@ export class AutorizacaoService {
       return of(false);
     }
 
-    return this.http.post(`${this.API_URL}/validar`, {token: token}).pipe(map((resposta: any) => {
+    return this.http.post(`${environment.API_URL}/auth/validar`, {token: token}).pipe(map((resposta: any) => {
         const tokenDecodificado: TokenDecodificado = {
           email: resposta.email,
           expiracao: new Date(resposta.expiracao)

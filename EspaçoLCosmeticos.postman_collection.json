@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "e1336a9b-58b4-4d6a-8df3-cb8f7473d66f",
+		"_postman_id": "3dd8a54d-00ea-4c25-94eb-b08ea04952e0",
 		"name": "EspaçoLCosmeticos",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "39070626"
+		"_exporter_id": "49914009",
+		"_collection_link": "https://luis-parente-484705.postman.co/workspace/Luis-Gustavo-Parente's-Workspac~305bab69-6950-42f4-8284-36d2f573d41d/collection/49914009-3dd8a54d-00ea-4c25-94eb-b08ea04952e0?action=share&source=collection_link&creator=49914009"
 	},
 	"item": [
 		{
@@ -489,7 +490,8 @@
 									"}"
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -506,12 +508,59 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/login",
+							"raw": "{{host}}/auth/login",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
+								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valida token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code >= 200 && pm.response.code < 300) {\r",
+									"    const json = pm.response.json();\r",
+									"    pm.environment.set(\"token\", json.token);\r",
+									"    console.log(\"Token salvo:\", json.token);\r",
+									"} else {\r",
+									"    console.log(\"Erro ao salvar token. Código:\", pm.response.code);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b2tlbi1nZW5lcmF0b3IiLCJzdWIiOiJwb2xvLm1hcmNvQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTklTVFJBRE9SIiwiZXhwIjoxNzY1OTc2OTQyfQ.DcwBOSEgPD52CjrbBEQLOuwdpQ4SGc19FiTcj58ck2o\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/validar",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"validar"
 							]
 						}
 					},
