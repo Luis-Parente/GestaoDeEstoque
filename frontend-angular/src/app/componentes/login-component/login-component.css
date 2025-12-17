@@ -1,6 +1,9 @@
 .login-container {
   margin: 120px auto;
   width: fit-content;
+  border: 1px solid;
+  border-radius: 20px;
+  background-color: var(--background-secundario);
 }
 
 .login-form {
@@ -27,9 +30,15 @@
 
   font-family: var(--fonte-principal), serif;
   font-size: var(--tamanho-texto-secundario);
-  background-color: var(--background-secundario);
+  background-color: var(--background-principal);
   border: 1px solid;
   border-radius: 10px;
 
   cursor: pointer;
+}
+
+.login-label input {
+  background-color: var(--background-principal);
+  border: 1px solid;
+  border-radius: 5px;
 }
