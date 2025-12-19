@@ -25,16 +25,13 @@ export class LoginComponent {
 
   submeterLogin() {
     const dadosLogin: LoginModel = new LoginModel(this.loginForm.email, this.loginForm.senha)
-
-    this.service.realizarLogin(dadosLogin).subscribe({
-      next: (resposta: any) => {
-        this.service.setToken(resposta.token);
-        this.router.navigate(['/home'])
-      },
-      error: err => {
-        console.log(err);
+    this.service.realizarLogin(dadosLogin).subscribe((sucesso: boolean) => {
+      if (sucesso) {
+        this.router.navigate(['/home']);
+      } else {
+        console.log('Login falhou');
       }
-    })
+    });
   }
 
   limparLoginForm() {
