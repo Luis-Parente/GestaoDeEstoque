@@ -2,7 +2,6 @@ package com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.controller;
 
 import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.DadosLogin;
 import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoLogin;
-import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.RetornoTokenValidado;
 import com.cosmeticosespacol.GestaoDeEstoque.api.seguranca.dto.Token;
 import com.cosmeticosespacol.GestaoDeEstoque.aplicacao.seguranca.ServiceDeToken;
 import com.cosmeticosespacol.GestaoDeEstoque.excecao.dto.ErroCustomizado;
@@ -51,15 +50,15 @@ public class ControllerDeAutenticacao {
         return ResponseEntity.ok().body(new RetornoLogin(token));
     }
 
-    @Operation(description = "Verifica se o token JWT é valido e retorna o e-mail e a data de expiração", summary = "Valida token JWT")
+    @Operation(description = "Verifica se o token JWT é valido e retorna true", summary = "Valida token JWT")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Token validado com sucesso", content = @Content(schema = @Schema(implementation = RetornoTokenValidado.class))),
+            @ApiResponse(responseCode = "200", description = "Token validado com sucesso", content = @Content(schema = @Schema(type = "boolean"))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = ErroCustomizado.class))),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
             @ApiResponse(responseCode = "422", description = "Unprocessable Entity", content = @Content(schema = @Schema(implementation = ErroCustomizado.class)))})
     @PostMapping(value = "/validar", produces = "application/json")
-    public ResponseEntity<RetornoTokenValidado> validar(@RequestBody @Valid Token dto) {
-        RetornoTokenValidado resultado = serviceDeToken.validarToken(dto.token());
+    public ResponseEntity<Boolean> validar(@RequestBody @Valid Token dto) {
+        Boolean resultado = serviceDeToken.validarToken(dto.token());
         return ResponseEntity.ok().body(resultado);
     }
 }

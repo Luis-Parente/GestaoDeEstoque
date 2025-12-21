@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {AutorizacaoService} from '../../services/autorizacao-service';
+import {AuthService} from '../../services/auth-service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {LoginModel} from '../../model/login-model';
 import {Router} from '@angular/router';
+import {LoginRequest} from '../../model/login-request';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login-component',
@@ -15,7 +16,7 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private service: AutorizacaoService, private router: Router) {
+  constructor(private service: AuthService, private router: Router) {
   }
 
   loginForm = {
@@ -24,12 +25,17 @@ export class LoginComponent {
   }
 
   submeterLogin() {
-    const dadosLogin: LoginModel = new LoginModel(this.loginForm.email, this.loginForm.senha)
-    this.service.realizarLogin(dadosLogin).subscribe((sucesso: boolean) => {
-      if (sucesso) {
-        this.router.navigate(['/home']);
-      } else {
-        console.log('Login falhou');
+    const dadosLogin: LoginRequest = {
+      email: this.loginForm.email,
+      senha: this.loginForm.senha
+    }
+
+    const resposta = this.service.realizarLogin(dadosLogin).subscribe({
+      next: resposta => {
+        this.router.navigate(['home']);
+      },
+      error: (erro: HttpErrorResponse) => {
+        alert(erro.error.message);
       }
     });
   }

@@ -1,6 +1,6 @@
 import {CanActivate, Router} from '@angular/router';
 import {Injectable} from '@angular/core';
-import {AutorizacaoService} from '../services/autorizacao-service';
+import {AuthService} from '../services/auth-service';
 import {map, Observable} from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,7 @@ import {map, Observable} from 'rxjs';
 
 export class AuthGuard implements CanActivate {
 
-  constructor(private service: AutorizacaoService, private router: Router) {
+  constructor(private service: AuthService, private router: Router) {
   }
 
   canActivate(): Observable<boolean> {

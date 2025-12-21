@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public record ErroCustomizadoValidaEntradaDados(Instant timestamp, Integer status, String error, String path,
+public record ErroCustomizadoValidaEntradaDados(Instant timestamp, Integer status, String message, String path,
                                                 List<CampoMensagem> errors) {
 
     public ErroCustomizadoValidaEntradaDados {
