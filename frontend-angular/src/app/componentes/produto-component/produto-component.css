@@ -1,0 +1,9 @@
+.produtos {
+  list-style: none;
+  display: flex;
+}
+
+.produto {
+
+  padding: 10px;
+}

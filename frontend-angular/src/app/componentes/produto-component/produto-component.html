@@ -1,0 +1,19 @@
+@if (carregando) {
+  <p>Carregando produtos</p>
+} @else if (produtos$ | async; as produtos) {
+  <div class="container-produtos">
+    <ul class="produtos">
+      @for (produto of produtos; track produto.uuid) {
+        <li class="produto">
+          <h3>{{ produto.nome }}</h3>
+          <p>{{ produto.categoria }}</p>
+          <p>{{ produto.preco }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+
+}
+
+
+
