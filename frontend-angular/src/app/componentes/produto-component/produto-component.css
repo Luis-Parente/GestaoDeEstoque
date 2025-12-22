@@ -1,9 +1,133 @@
-.produtos {
-  list-style: none;
+.container-produtos {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 60vh;
+}
+
+.carregando-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  font-family: var(--fonte-principal), serif;
+  font-size: var(--tamanho-texto-principal);
+  color: #666;
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  list-style: none;
+  padding: 0;
 }
 
 .produto {
+  background-color: var(--background-secundario);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
 
-  padding: 10px;
+.produto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.produto-cabecalho {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.produto-nome {
+  font-family: var(--fonte-principal), serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.produto-categoria {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.produto-descricao {
+  font-family: var(--fonte-principal), serif;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.produto-info {
+  margin-top: auto;
+}
+
+.produto-preco-container {
+  margin-bottom: 15px;
+}
+
+.produto-preco {
+  font-family: var(--fonte-principal), serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.produto-desconto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.preco-original {
+  font-family: var(--fonte-principal), serif;
+  font-size: 16px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.desconto-percentual {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.produto-estoque {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.estoque-label {
+  font-family: var(--fonte-principal), serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.estoque-quantidade {
+  font-family: var(--fonte-principal), serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
 }

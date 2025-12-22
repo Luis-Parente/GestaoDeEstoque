@@ -1,18 +1,43 @@
 @if (carregando) {
-  <p>Carregando produtos</p>
+  <div class="carregando-container">
+    <p>Carregando produtos...</p>
+  </div>
 } @else if (produtos$ | async; as produtos) {
   <div class="container-produtos">
     <ul class="produtos">
       @for (produto of produtos; track produto.uuid) {
         <li class="produto">
-          <h3>{{ produto.nome }}</h3>
-          <p>{{ produto.categoria }}</p>
-          <p>{{ produto.preco }}</p>
+          <div class="produto-cabecalho">
+            <h3 class="produto-nome">{{ produto.nome }}</h3>
+            <span class="produto-categoria">{{ produto.categoria }}</span>
+          </div>
+
+          <p class="produto-descricao">{{ produto.descricao }}</p>
+
+          <div class="produto-info">
+            <div class="produto-preco-container">
+              @if (produto.desconto > 0) {
+                <div class="produto-desconto">
+                  <span class="preco-original">R$ {{ produto.preco }}</span>
+                  <span class="desconto-percentual">-{{ produto.desconto }}%</span>
+                </div>
+                <span class="produto-preco">
+                  R$ {{ produto.preco * (1 - produto.desconto/100) | number:'1.2-2' }}
+                </span>
+              } @else {
+                <span class="produto-preco">R$ {{ produto.preco | number:'1.2-2' }}</span>
+              }
+            </div>
+
+            <div class="produto-estoque">
+              <span class="estoque-label">Estoque:</span>
+              <span class="estoque-quantidade">{{ produto.quantidade }}</span>
+            </div>
+          </div>
         </li>
       }
     </ul>
   </div>
-
 }
 
 

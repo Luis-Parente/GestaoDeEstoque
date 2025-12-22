@@ -28,5 +28,4 @@ export class ProdutoComponent implements OnInit {
     this.produtos$ = this.produtoService.buscarProdutos();
     this.carregando = false;
   }
-
 }
