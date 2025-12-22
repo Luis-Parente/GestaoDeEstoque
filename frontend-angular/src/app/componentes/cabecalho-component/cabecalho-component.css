@@ -1,7 +1,25 @@
-header {
+.header-content {
   background: var(--background-secundario);
   max-height: 100vh;
   font-size: var(--tamanho-texto-principal);
   font-weight: bold;
   padding: 20px;
+  display: flex;
+}
+
+.botao-sair {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: var(--fonte-principal), serif;
+  font-size: var(--tamanho-texto-secundario);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: auto; /* Para alinhar à direita se usar flex */
+}
+
+.botao-sair:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.2);
 }

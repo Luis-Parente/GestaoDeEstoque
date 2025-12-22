@@ -1,5 +1,11 @@
 <header>
-  <p>
-    Espaço L Cosméticos
-  </p>
+  <div class="header-content">
+    <h1>Espaco L Cosméticos</h1>
+
+    @if (mostrarBotaoSair) {
+      <button class="botao-sair" (click)="logout()">
+        Sair
+      </button>
+    }
+  </div>
 </header>

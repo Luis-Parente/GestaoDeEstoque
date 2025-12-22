@@ -4,6 +4,9 @@ import {PaginaInicialComponent} from './componentes/pagina-inicial-component/pag
 import {AuthGuard} from './guard/auth-guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'home', component: PaginaInicialComponent, canActivate: [AuthGuard] },
+
+  { path: '**', redirectTo: '/home' }
 ];
